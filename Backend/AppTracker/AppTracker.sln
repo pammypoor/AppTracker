@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.WebAPI", "AppTracker.WebAPI\AppTracker.WebAPI.csproj", "{60B05918-B504-4698-B596-4FF0CB59A719}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F1492277-93BE-4383-B1DD-32588070C543} = {F1492277-93BE-4383-B1DD-32588070C543}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Models", "AppTracker.Models\AppTracker.Models.csproj", "{F1492277-93BE-4383-B1DD-32588070C543}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{60B05918-B504-4698-B596-4FF0CB59A719}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60B05918-B504-4698-B596-4FF0CB59A719}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60B05918-B504-4698-B596-4FF0CB59A719}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1492277-93BE-4383-B1DD-32588070C543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1492277-93BE-4383-B1DD-32588070C543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1492277-93BE-4383-B1DD-32588070C543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1492277-93BE-4383-B1DD-32588070C543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
