@@ -1,3 +1,5 @@
+using AppTracker.DataAccessLayer.Contracts;
+using AppTracker.DataAccessLayer.Implementations;
 using AppTracker.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add Configuration File to DI
 builder.Services.Configure<BuildSettingsOptions>(
     builder.Configuration.GetSection(nameof(BuildSettingsOptions)));
+builder.Services.AddScoped<IUserAccountDAO, UserAccountDAO>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

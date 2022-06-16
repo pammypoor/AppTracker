@@ -1,5 +1,7 @@
-﻿using AppTracker.Models;
+﻿using AppTracker.DataAccessLayer.Contracts;
+using AppTracker.Models;
 using AppTracker.Models.Contracts;
+using AppTracker.Models.Implementations.Responses;
 using Dapper;
 using Microsoft.Extensions.Options;
 using System.Data;
@@ -7,7 +9,7 @@ using System.Data.SqlClient;
 
 namespace AppTracker.DataAccessLayer.Implementations
 {
-    public class UserAccountDAO
+    public class UserAccountDAO: IUserAccountDAO
     {
         private BuildSettingsOptions _options { get; }
         public UserAccountDAO(IOptionsSnapshot<BuildSettingsOptions> options)
@@ -15,7 +17,7 @@ namespace AppTracker.DataAccessLayer.Implementations
             _options = options.Value;
         }
 
-        public async Task<IResponse<string>> CreateUserAccount(IUserAccount account, string userHash, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IResponse<string>> CreateUserAccountAsync(IUserAccount account, string userHash, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -33,23 +35,31 @@ namespace AppTracker.DataAccessLayer.Implementations
                         procedurehash = userHash
                     };
 
-                    var result = await connection.ExecuteAsync(new CommandDefinition(procedure, parameters,
+                    var result = await connection.ExecuteScalarAsync<string>(new CommandDefinition(procedure, parameters,
                         commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken)).ConfigureAwait(false);
+
+                    return new Response<string>("success", result, 200, true);
                 }
             }
             catch(SqlException ex)
             {
-
+                switch (ex.Number)
+                {
+                    case -1:
+                        return new Response<string>("cannot connect to database", "", 503, false);
+                    default:
+                        return new Response<string>("unhandled exception", "", 500, false);
+                }
+                
             }
             catch(OperationCanceledException ex)
             {
-
+                return new Response<string>("cancellation requested", "", 500, false);
             }
             catch(Exception ex)
             {
-
+                return new Response<string>("unhandled exception" + ex.Message, "", 500, false);
             }
         }
-
     }
 }

@@ -3,18 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.WebAPI", "AppTracker.WebAPI\AppTracker.WebAPI.csproj", "{60B05918-B504-4698-B596-4FF0CB59A719}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.WebAPI", "AppTracker.WebAPI\AppTracker.WebAPI.csproj", "{60B05918-B504-4698-B596-4FF0CB59A719}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F1492277-93BE-4383-B1DD-32588070C543} = {F1492277-93BE-4383-B1DD-32588070C543}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Models", "AppTracker.Models\AppTracker.Models.csproj", "{F1492277-93BE-4383-B1DD-32588070C543}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Models", "AppTracker.Models\AppTracker.Models.csproj", "{F1492277-93BE-4383-B1DD-32588070C543}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Services", "AppTracker.Services\AppTracker.Services.csproj", "{A420980A-58B2-42F4-8A16-79989F10A556}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Services", "AppTracker.Services\AppTracker.Services.csproj", "{A420980A-58B2-42F4-8A16-79989F10A556}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Tests", "AppTracker.Tests\AppTracker.Tests.csproj", "{F3947AE6-9E66-4DC6-9818-5DB7BF4E2174}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Tests", "AppTracker.Tests\AppTracker.Tests.csproj", "{F3947AE6-9E66-4DC6-9818-5DB7BF4E2174}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.DataAccessLayer", "AppTracker.DataAccessLayer\AppTracker.DataAccessLayer.csproj", "{A0CD357F-B7E5-40A8-9767-6D83616EF1F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.DataAccessLayer", "AppTracker.DataAccessLayer\AppTracker.DataAccessLayer.csproj", "{A0CD357F-B7E5-40A8-9767-6D83616EF1F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F1492277-93BE-4383-B1DD-32588070C543} = {F1492277-93BE-4383-B1DD-32588070C543}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Managers", "AppTracker.Managers\AppTracker.Managers.csproj", "{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +47,10 @@ Global
 		{A0CD357F-B7E5-40A8-9767-6D83616EF1F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0CD357F-B7E5-40A8-9767-6D83616EF1F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0CD357F-B7E5-40A8-9767-6D83616EF1F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
