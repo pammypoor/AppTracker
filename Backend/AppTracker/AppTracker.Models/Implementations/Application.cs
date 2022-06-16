@@ -1,23 +1,25 @@
 ﻿using AppTracker.Models.Contracts;
-using System.Runtime.Serialization;
 
 namespace AppTracker.Models.Implementations
 {
-    public enum status
-    {
-
-    }
-
-    [DataContract]
     public class Application: IApplication, IEquatable<Application>
     {
-        [DataMember]
+        
         public long ApplicationID { get; set; }
-        [DataMember]
+        public string UserHash { get; set; }
+        public DateTime SubmissionDateTime { get; set; }
+        public string Company { get; set; }
+        public string Position { get; set; }
+        public string Type { get; set; }
         public string Status { get; set; }
-        [DataMember]
         public long Salary { get; set; }
-
+        public string Link { get; set; }
+        public string State { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public string Description { get; set; }
+        public bool Deleted { get; set; }
+        
         public bool Equals(Application? obj)
         {
             if(obj != null)
