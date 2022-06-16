@@ -4,7 +4,6 @@ namespace AppTracker.Models.Implementations
 {
     public class Application: IApplication, IEquatable<Application>
     {
-        
         public long ApplicationID { get; set; }
         public string UserHash { get; set; }
         public DateTime SubmissionDateTime { get; set; }
@@ -27,6 +26,23 @@ namespace AppTracker.Models.Implementations
                 return ApplicationID.Equals(obj.ApplicationID);
             }
             return false;
+        }
+
+        public Application(string userHash, DateTime submissionDateTime, string company, string position, string type, string status, long salary, string link, string state, string city, string country, string description, bool deleted)
+        {
+            UserHash=userHash;
+            SubmissionDateTime=submissionDateTime;
+            Company=company;
+            Position=position;
+            Type=type;
+            Status=status;
+            Salary=salary;
+            Link=link;
+            State=state;
+            City=city;
+            Country=country;
+            Description=description;
+            Deleted=deleted;
         }
 
     }

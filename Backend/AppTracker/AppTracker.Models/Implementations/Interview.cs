@@ -20,5 +20,17 @@ namespace AppTracker.Models.Implementations
             }
             return false;
         }
+
+        public Interview(DateTime Appointment, bool Online, string LocationAddress, string LocationCity, string LocationState, string LocationCountry, string InterviewLink)
+        {
+            this.Appointment = Appointment;
+            this.Online = Online;
+            this.LocationAddress = LocationAddress;
+            this.LocationCity = LocationCity;
+            this.LocationState = LocationState;
+            this.LocationCountry = LocationCountry;
+            this.InterviewLink = InterviewLink;
+        }
+
     }
 }

@@ -23,5 +23,14 @@ namespace AppTracker.Models.Implementations
             }
             return false;
         }
+
+        public UserAccount(string Email, string Password, string AuthorizationLevel, bool Enabled, bool Confirmed)
+        {
+            this.Email = Email;
+            this.Password = Password;
+            this.AuthorizationLevel = AuthorizationLevel;
+            this.Enabled = Enabled;
+            this.Confirmed = Confirmed;
+        }
     }
 }

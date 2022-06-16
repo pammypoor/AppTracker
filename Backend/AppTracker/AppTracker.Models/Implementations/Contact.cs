@@ -22,5 +22,18 @@ namespace AppTracker.Models.Implementations
             }
             return false;
         }
+
+        public Contact(string firstName, string lastName, string title, string company, string email, string phoneCountry, string phoneArea, string phoneNumber, bool deleted)
+        {
+            FirstName=firstName;
+            LastName=lastName;
+            Title=title;
+            Company=company;
+            Email=email;
+            PhoneCountry=phoneCountry;
+            PhoneArea=phoneArea;
+            PhoneNumber=phoneNumber;
+            Deleted=deleted;
+        }
     }
 }
