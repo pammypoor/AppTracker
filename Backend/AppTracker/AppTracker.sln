@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.DataAccessLayer"
 		{F1492277-93BE-4383-B1DD-32588070C543} = {F1492277-93BE-4383-B1DD-32588070C543}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Managers", "AppTracker.Managers\AppTracker.Managers.csproj", "{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Managers", "AppTracker.Managers\AppTracker.Managers.csproj", "{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

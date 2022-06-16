@@ -2,11 +2,12 @@
 using AppTracker.Models.Contracts;
 using AppTracker.Models.Implementations;
 using AppTracker.Models.Implementations.Responses;
+using AppTracker.Services.Contracts;
 using System.Security.Cryptography;
 
 namespace AppTracker.Services.Implementations
 {
-    public class RegistrationService
+    public class RegistrationService: IRegistrationService
     {
         private IUserAccountDAO _DAO { get; set; }
 

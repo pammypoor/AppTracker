@@ -8,8 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Implementations\" />
+    <ProjectReference Include="..\AppTracker.DataAccessLayer\AppTracker.DataAccessLayer.csproj" />
   </ItemGroup>
 
 </Project>

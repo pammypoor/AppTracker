@@ -1,7 +1,9 @@
 ﻿
+using AppTracker.Services.Contracts;
+
 namespace AppTracker.Services.Implementations
 {
-    public class TrackerService
+    public class TrackerService: ITrackerService
     {
 
 
