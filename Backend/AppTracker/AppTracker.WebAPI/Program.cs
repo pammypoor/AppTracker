@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<BuildSettingsOptions>(
     builder.Configuration.GetSection(nameof(BuildSettingsOptions)));
 //DAL
-builder.Services.AddScoped<IUserAccountDAO, UserAccountDAO>();
+builder.Services.AddScoped<IRegistrationDAO, RegistrationDAO>();
 //Services
 builder.Services.AddScoped<ITrackerService, TrackerService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();

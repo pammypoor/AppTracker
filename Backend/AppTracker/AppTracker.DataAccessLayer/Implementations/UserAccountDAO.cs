@@ -9,10 +9,10 @@ using System.Data.SqlClient;
 
 namespace AppTracker.DataAccessLayer.Implementations
 {
-    public class UserAccountDAO: IUserAccountDAO
+    public class RegistrationDAO: IRegistrationDAO
     {
         private BuildSettingsOptions _options { get; }
-        public UserAccountDAO(IOptionsSnapshot<BuildSettingsOptions> options)
+        public RegistrationDAO(IOptionsSnapshot<BuildSettingsOptions> options)
         {
             _options = options.Value;
         }
@@ -25,15 +25,15 @@ namespace AppTracker.DataAccessLayer.Implementations
                 using(var connection = new SqlConnection(_options.SqlConnectionString))
                 {
                     connection.Open();
-                    var procedure = "[createaccount]";
+                    var procedure = "[CreateAccount]";
                     var parameters = new
                     {
-                        procedureemail = account.Email,
-                        procedurepassphrase = account.Password,
-                        procedureauthorizationlevel = account.AuthorizationLevel,
-                        procedureenabled = account.Enabled,
-                        procedureconfirmed = account.Confirmed,
-                        procedurehash = userHash
+                        @email = account.Email,
+                        @passphrase = account.Password,
+                        @authorization_level = account.AuthorizationLevel,
+                        @enabled = account.Enabled,
+                        @confirmed = account.Confirmed,
+                        @user_hash = userHash
                     };
 
                     var result = await connection.ExecuteScalarAsync<string>(new CommandDefinition(procedure, parameters,
@@ -41,7 +41,7 @@ namespace AppTracker.DataAccessLayer.Implementations
 
 
 
-                    return new Response<string>("TEST", _options.SqlConnectionString, 200, true);
+                    return new Response<string>("success", "", 200, true);
                 }
             }
             catch(SqlException ex)

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.DataAccessLayer"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Managers", "AppTracker.Managers\AppTracker.Managers.csproj", "{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Middleware", "AppTracker.Middleware\AppTracker.Middleware.csproj", "{5D4822C7-7A55-403A-A810-A85ECDC77632}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA0629B9-C6C4-49AD-8D8D-CE2B0789C5B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D4822C7-7A55-403A-A810-A85ECDC77632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D4822C7-7A55-403A-A810-A85ECDC77632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D4822C7-7A55-403A-A810-A85ECDC77632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D4822C7-7A55-403A-A810-A85ECDC77632}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
