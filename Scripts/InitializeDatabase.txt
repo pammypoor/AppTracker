@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS hashs;
 DROP TABLE IF EXISTS users;
 
 Create Table  users (
-    user_account_id BIGINT GENERATED ALWAYS AS IDENTITY,
+    user_account_id BIGINT NOT NULL AUTO_INCREMENT,
     username VARCHAR(128),
     passphrase VARCHAR(128) NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
@@ -20,23 +20,3 @@ CREATE TABLE hashs (
 	user_hash VARCHAR(128) PRIMARY KEY,
 	CONSTRAINT hash_fk FOREIGN KEY(user_account_id) REFERENCES users(user_account_id)
 );
-
-CREATE PROCEDURE CreateAccount (
-	procedureEmail VARCHAR(128),
-	procedurePassphrase VARCHAR(128),
-	procedureAuthorizationLevel VARCHAR(50),
-	procedureEnabled bit,
-	procedureConfirmed bit,
-	procedureHash VARCHAR(128)
-)
-language plpgsql
-as $$
-DECLARE procedure_id BIGINT;
-begin	
-	
-	INSERT INTO users (email, passphrase, authorization_level, enabled, confirmed)
-		VALUES(procedureEmail, procedurePassphrase, procedureAuthorizationLevel, procedureEnabled, procedureConfirmed) RETURNING 
-		user_account_id as procedure_id;
-	INSERT INTO hashs(user_account_id, user_hash)
-		VALUES(procedure_id, procedureHash);
-END;$$

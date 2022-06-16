@@ -24,6 +24,7 @@ namespace AppTracker.DataAccessLayer.Implementations
                 cancellationToken.ThrowIfCancellationRequested();
                 using(var connection = new SqlConnection(_options.SqlConnectionString))
                 {
+                    connection.Open();
                     var procedure = "[createaccount]";
                     var parameters = new
                     {
@@ -38,7 +39,9 @@ namespace AppTracker.DataAccessLayer.Implementations
                     var result = await connection.ExecuteScalarAsync<string>(new CommandDefinition(procedure, parameters,
                         commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken)).ConfigureAwait(false);
 
-                    return new Response<string>("success", result, 200, true);
+
+
+                    return new Response<string>("TEST", _options.SqlConnectionString, 200, true);
                 }
             }
             catch(SqlException ex)
@@ -48,7 +51,7 @@ namespace AppTracker.DataAccessLayer.Implementations
                     case -1:
                         return new Response<string>("cannot connect to database", "", 503, false);
                     default:
-                        return new Response<string>("unhandled exception", "", 500, false);
+                        return new Response<string>("unhandled exception" + ex.Message, "", 500, false);
                 }
                 
             }

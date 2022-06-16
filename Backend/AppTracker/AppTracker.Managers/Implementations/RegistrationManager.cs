@@ -1,4 +1,4 @@
-﻿using AppTracker.Managers.Contracts
+﻿using AppTracker.Managers.Contracts;
 using AppTracker.Models;
 using AppTracker.Models.Contracts;
 using AppTracker.Models.Implementations.Responses;

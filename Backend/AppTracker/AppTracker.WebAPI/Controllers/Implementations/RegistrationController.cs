@@ -24,7 +24,7 @@ namespace AppTracker.WebAPI.Controllers.Implementations
             {
                 IResponse<string> result = await _registrationManager.CreateUserAccountAsync(email, password).ConfigureAwait(false);
 
-                return Ok(result.Data);
+                return StatusCode(result.StatusCode, result.ErrorMessage);
 
             }
             catch (Exception ex)
