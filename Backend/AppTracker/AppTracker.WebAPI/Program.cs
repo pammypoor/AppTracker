@@ -21,14 +21,18 @@ builder.Services.AddScoped<IMessageBank, MessageBank>();
 
 //DAL
 builder.Services.AddScoped<IUserAccountDAO, UserAccountDAO>();
+builder.Services.AddScoped<IApplicationDAO, ApplicationDAO>();
+
 //Services
 builder.Services.AddScoped<ITrackerService, TrackerService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
 
 //Managers
 builder.Services.AddScoped<IRegistrationManager, RegistrationManager>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+builder.Services.AddScoped<ITrackerManager, TrackerManager>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
