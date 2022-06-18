@@ -1,11 +1,13 @@
 ﻿using AppTracker.Managers.Contracts;
 using AppTracker.Models.Contracts;
 using AppTracker.WebAPI.Controllers.Contracts;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppTracker.WebAPI.Controllers.Implementations
 {
     [ApiController]
+    [EnableCors]
     [Route("[controller]")]
     public class RegistrationController: ControllerBase, IRegistrationController
     {

@@ -13,5 +13,10 @@ namespace AppTracker.Models.Implementations.Input
             UserAccount = account;
             UserHash = userHash;
         }
+
+        public AuthenticationInput(IUserAccount account)
+        {
+            UserAccount = account;
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace AppTracker.DataAccessLayer.Contracts
         public Task<IResponse<string>> GetUserHashAsync(IUserAccount account, CancellationToken cancellationToken = default(CancellationToken));
 
         public Task<IResponse<int>> AuthenticateAsync(IAuthenticationInput authenticationInput, CancellationToken cancellationToken = default(CancellationToken));
+
+        public Task<IResponse<int>> VerifyAccountAsync(IUserAccount account, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

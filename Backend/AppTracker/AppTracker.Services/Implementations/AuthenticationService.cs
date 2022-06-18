@@ -35,7 +35,7 @@ namespace AppTracker.Services.Implementations
                 IResponse<string> GetUserHashResult = await _userAccountDAO.GetUserHashAsync(authenticationInput.UserAccount);
                 authenticationInput.UserHash = GetUserHashResult.Data;
 
-                 string token = await CreateJwtTokenAsync(authenticationInput, cancellationToken).ConfigureAwait(false);
+                string token = await CreateJwtTokenAsync(authenticationInput, cancellationToken).ConfigureAwait(false);
 
                 IResponse<int> authenticateResult = await _userAccountDAO.AuthenticateAsync(authenticationInput, cancellationToken).ConfigureAwait(false);
 
@@ -46,13 +46,39 @@ namespace AppTracker.Services.Implementations
                         break;
                     default:
                         // Not correct
-                        throw new Exception();
+                        throw new Exception(authenticateResult.Data.ToString());
                 };
                 return new Response<string>("success", token, 200, true);
             }
             catch(Exception ex)
             {
                 return new Response<string>("unhandled exception" + ex.Message, "-1", 500, false);
+            }
+        }
+
+        public async Task<IResponse<string>> VerifyAccountAsync(IUserAccount account, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                IResponse<int> result = await _userAccountDAO.VerifyAccountAsync(account, cancellationToken);
+                switch (result.Data)
+                {
+                    case 0:
+                        return new Response<string>("Account Not Found", "Account Not Found", 404, false);
+                    case 1:
+                        return new Response<string>("success", "", 200, true);
+                    case 2:
+                        return new Response<string>("Account Disabled", "Account Disabled", 403, false);
+                    case 3:
+                        return new Response<string>("Account Unconfirmed", "Account Unconfirmed", 403, false);
+                    default:
+                        return new Response<string>("Error Validating", "Error Validating", 500, false);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Response<string>("unhandled exception" + ex.Message, "", 500, false);
             }
         }
 

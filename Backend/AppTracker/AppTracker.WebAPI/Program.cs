@@ -18,12 +18,15 @@ builder.Services.AddScoped<IUserAccountDAO, UserAccountDAO>();
 //Services
 builder.Services.AddScoped<ITrackerService, TrackerService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 //Managers
 builder.Services.AddScoped<IRegistrationManager, RegistrationManager>();
+builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
 //Controllers
 builder.Services.AddScoped<IRegistrationController, RegistrationController>();
+builder.Services.AddScoped<IAuthenticationController, AuthenticationController>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

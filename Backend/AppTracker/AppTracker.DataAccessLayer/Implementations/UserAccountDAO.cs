@@ -83,7 +83,7 @@ namespace AppTracker.DataAccessLayer.Implementations
                     var result = await connection.ExecuteScalarAsync<string>(new CommandDefinition(procedure, parameters,
                         commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken)).ConfigureAwait(false);
 
-                    return new Response<string>("success", result, 200, true);
+                    return new Response<string>("success", parameters.Get<string>("Result"), 200, true);
                 }
             }
             catch (SqlException ex)
@@ -107,6 +107,46 @@ namespace AppTracker.DataAccessLayer.Implementations
             }
         }
 
+        public async Task<IResponse<int>> VerifyAccountAsync(IUserAccount account, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                using (var connection = new SqlConnection(_options.SqlConnectionString))
+                {
+                    var procedure = "[VerifyAccount]";
+                    var parameters = new DynamicParameters();
+                    parameters.Add("Email", account.Email);
+                    parameters.Add("AuthorizationLevel", account.AuthorizationLevel);
+                    parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    var result = await connection.ExecuteAsync(new CommandDefinition(procedure, parameters,
+                    commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken))
+                    .ConfigureAwait(false);
+
+                    return new Response<int>("success", parameters.Get<int>("Result"), 200, true);
+                }
+            }
+            catch (SqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case -1:
+                        return new Response<int>("cannot connect to database", 0, 503, false);
+                    default:
+                        return new Response<int>("unhandled exception" + ex.Message, 0, 500, false);
+                }
+
+            }
+            catch (OperationCanceledException ex)
+            {
+                return new Response<int>("cancellation requested", 0, 500, false);
+            }
+            catch (Exception ex)
+            {
+                return new Response<int>("unhandled exception" + ex.Message, 0, 500, false);
+            }
+        }
+
         public async Task<IResponse<int>> AuthenticateAsync(IAuthenticationInput authenticationInput, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -116,8 +156,8 @@ namespace AppTracker.DataAccessLayer.Implementations
                 {
                     var procedure = "[Authenticate]";
                     var parameters = new DynamicParameters();
-                    parameters.Add("email", authenticationInput.UserAccount.Email);
-                    parameters.Add("passphrase", authenticationInput.UserAccount.Password);
+                    parameters.Add("Email", authenticationInput.UserAccount.Email);
+                    parameters.Add("Passphrase", authenticationInput.UserAccount.Password);
                     parameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                     var result = await connection.ExecuteAsync(new CommandDefinition(procedure, parameters,
