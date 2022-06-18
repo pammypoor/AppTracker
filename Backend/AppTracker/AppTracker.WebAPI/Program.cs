@@ -2,6 +2,8 @@ using AppTracker.DataAccessLayer.Contracts;
 using AppTracker.DataAccessLayer.Implementations;
 using AppTracker.Managers.Contracts;
 using AppTracker.Managers.Implementations;
+using AppTracker.MessageBank.Contracts;
+using AppTracker.MessageBank.Implementations;
 using AppTracker.Models;
 using AppTracker.Services.Contracts;
 using AppTracker.Services.Implementations;
@@ -13,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add Configuration File to DI
 builder.Services.Configure<BuildSettingsOptions>(
     builder.Configuration.GetSection(nameof(BuildSettingsOptions)));
+// MessageBank
+builder.Services.AddScoped<IMessageBank, MessageBank>();
+
 //DAL
 builder.Services.AddScoped<IUserAccountDAO, UserAccountDAO>();
 //Services
@@ -27,6 +32,7 @@ builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 //Controllers
 builder.Services.AddScoped<IRegistrationController, RegistrationController>();
 builder.Services.AddScoped<IAuthenticationController, AuthenticationController>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

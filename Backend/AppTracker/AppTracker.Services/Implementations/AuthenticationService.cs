@@ -42,13 +42,12 @@ namespace AppTracker.Services.Implementations
                 switch (authenticateResult.Data)
                 {
                     case 1:
-                        authenticationInput.UserAccount.Token = token;
-                        break;
+                        return new Response<string>(authenticateResult.ErrorMessage, authenticateResult.ErrorMessage, authenticateResult.StatusCode, true);
+                            break;
                     default:
                         // Not correct
                         throw new Exception(authenticateResult.Data.ToString());
                 };
-                return new Response<string>("success", token, 200, true);
             }
             catch(Exception ex)
             {

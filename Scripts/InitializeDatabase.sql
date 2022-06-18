@@ -1,12 +1,21 @@
 DROP TABLE IF EXISTS hashs;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS responses;
 
 DROP PROCEDURE IF EXISTS CreateAccount;
 DROP PROCEDURE IF EXISTS GetUserHash;
 DROP PROCEDURE IF EXISTS Authenticate;
 DROP PROCEDURE IF EXISTS VerifyAccount;
+DROP PROCEDURE IF EXISTS GetMessage;
 
-Create Table  users (
+CREATE TABLE responses(
+	response_id BIGINT IDENTITY(1,1) NOT NULL,
+	response VARCHAR(100) NOT NULL,
+	response_message VARCHAR(150) NOT NULL,
+	code INT NOT NULL
+);
+
+CREATE TABLE  users (
     user_account_id BIGINT IDENTITY(1,1) NOT NULL,
     username VARCHAR(128),
     passphrase VARCHAR(128) NOT NULL,
@@ -24,6 +33,21 @@ CREATE TABLE hashs (
 	user_hash VARCHAR(128) PRIMARY KEY,
 	CONSTRAINT hash_fk FOREIGN KEY(user_account_id) REFERENCES users(user_account_id)
 );
+
+INSERT INTO responses (response, response_message, code) VALUES
+	('success', 'Success', 200),
+	('unhandledException', 'Unhandeled Exception', 500),
+	('operationCancelled', 'Operation Cancelled', 500),
+	('operationTimeExceeded', 'Operation Time Limit Exceeded', 500),
+	('principalNotSet', 'Principal was not set correctly.', 500),
+	('databaseConnectionFail', 'Unable to connect to database', 503),
+	('accountVerificationSuccess', 'Account verified', 200),
+	('accountNotEnabled', 'Account not enabled', 401),
+	('accountNotConfirmed', 'Account not confirmed', 401),
+	('accountNotFound', 'Account not found', 404),
+	('authenticationSuccess', 'Account authenticated', 200);
+
+
 
 SET ANSI_NULLS ON
 GO
@@ -146,4 +170,28 @@ BEGIN
 	RETURN @Result;
 END
 
-SELECT * FROM hashs
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE dbo.[GetMessage]
+(
+	@Response VARCHAR(100),
+	@ResultMessage VARCHAR(150) OUTPUT, 
+	@ResultCode INT OUTPUT
+)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRY;
+		SET @ResultMessage = (SELECT response_message FROM responses WHERE response = @Response);
+		IF(@ResultMessage  IS NOT NULL)
+			SET @ResultCode = (SELECT code FROM responses WHERE response = @Response);
+		ELSE
+			RETURN @ResultMessage;
+	END TRY
+	BEGIN CATCH
+		RETURN 0;
+	END CATCH;
+	RETURN 1;
+END

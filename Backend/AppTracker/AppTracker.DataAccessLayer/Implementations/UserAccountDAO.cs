@@ -1,4 +1,5 @@
 ﻿using AppTracker.DataAccessLayer.Contracts;
+using AppTracker.MessageBank.Contracts;
 using AppTracker.Models;
 using AppTracker.Models.Contracts;
 using AppTracker.Models.Contracts.Input;
@@ -10,12 +11,14 @@ using System.Data.SqlClient;
 
 namespace AppTracker.DataAccessLayer.Implementations
 {
-    public class UserAccountDAO: IUserAccountDAO
+    public class UserAccountDAO : IUserAccountDAO
     {
         private BuildSettingsOptions _options { get; }
-        public UserAccountDAO(IOptionsSnapshot<BuildSettingsOptions> options)
+        private IMessageBank _messageBank {get;}
+        public UserAccountDAO(IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
         {
             _options = options.Value;
+            _messageBank = messageBank;
         }
 
         public async Task<IResponse<string>> CreateUserAccountAsync(IUserAccount account, string userHash, CancellationToken cancellationToken = default(CancellationToken))
@@ -39,8 +42,6 @@ namespace AppTracker.DataAccessLayer.Implementations
 
                     var result = await connection.ExecuteScalarAsync<string>(new CommandDefinition(procedure, parameters,
                         commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken)).ConfigureAwait(false);
-
-
 
                     return new Response<string>("success", "", 200, true);
                 }
@@ -164,7 +165,8 @@ namespace AppTracker.DataAccessLayer.Implementations
                     commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken))
                     .ConfigureAwait(false);
 
-                    return new Response<int>("success", parameters.Get<int>("Result"), 200, true);
+                    IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.authenticationSuccess);
+                    return new Response<int>(messageResponse.Message, parameters.Get<int>("Result"), messageResponse.Code, true);
 
                 }
             }
@@ -173,19 +175,27 @@ namespace AppTracker.DataAccessLayer.Implementations
                 switch (ex.Number)
                 {
                     case -1:
-                        return new Response<int>("cannot connect to database", 0, 503, false);
+                        {
+                            IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.databaseConnectionFail);
+                            return new Response<int>(messageResponse.Message, 0, messageResponse.Code, false);
+                        }                        
                     default:
-                        return new Response<int>("unhandled exception" + ex.Message, 0, 500, false);
+                        {
+                            IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                            return new Response<int>(messageResponse.Message + ex.Message, 0, messageResponse.Code, false);
+                        }
                 }
 
             }
             catch (OperationCanceledException ex)
             {
-                return new Response<int>("cancellation requested", 0, 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled);
+                return new Response<int>(messageResponse.Message + ex.Message, 0, messageResponse.Code, false);
             }
             catch (Exception ex)
             {
-                return new Response<int>("unhandled exception" + ex.Message, 0, 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                return new Response<int>(messageResponse.Message + ex.Message, 0, messageResponse.Code, false);
             }
         }
 
