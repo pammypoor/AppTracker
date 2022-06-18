@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AppTracker.DataAccessLayer\AppTracker.DataAccessLayer.csproj" />
     <ProjectReference Include="..\AppTracker.Managers\AppTracker.Managers.csproj" />
+    <ProjectReference Include="..\AppTracker.Middleware\AppTracker.Middleware.csproj" />
     <ProjectReference Include="..\AppTracker.Models\AppTracker.Models.csproj" />
     <ProjectReference Include="..\AppTracker.Services\AppTracker.Services.csproj" />
   </ItemGroup>

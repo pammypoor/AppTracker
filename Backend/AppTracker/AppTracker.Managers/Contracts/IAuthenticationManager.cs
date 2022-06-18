@@ -10,5 +10,6 @@ namespace AppTracker.Managers.Contracts
     public interface IAuthenticationManager
     {
         public Task<IResponse<string>> AuthenticateAsync(string email, string password, string authenticationLevel, CancellationToken cancellationToken = default(CancellationToken));
+        public Task<IResponse<string>> RefreshSessionAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

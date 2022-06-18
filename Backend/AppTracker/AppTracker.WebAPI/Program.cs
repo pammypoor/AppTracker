@@ -4,6 +4,7 @@ using AppTracker.Managers.Contracts;
 using AppTracker.Managers.Implementations;
 using AppTracker.MessageBank.Contracts;
 using AppTracker.MessageBank.Implementations;
+using AppTracker.Middleware;
 using AppTracker.Models;
 using AppTracker.Services.Contracts;
 using AppTracker.Services.Implementations;
@@ -28,11 +29,6 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 //Managers
 builder.Services.AddScoped<IRegistrationManager, RegistrationManager>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
-
-//Controllers
-builder.Services.AddScoped<IRegistrationController, RegistrationController>();
-builder.Services.AddScoped<IAuthenticationController, AuthenticationController>();
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -67,8 +63,17 @@ app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
 
-//app.UseTokenAuthentication();
+app.UseTokenAuthentication();
 
 app.MapControllers();
 
 app.Run();
+
+public static class AuthExtensions
+{
+    public static IApplicationBuilder UseTokenAuthentication(this IApplicationBuilder host)
+    {
+        return host.UseMiddleware<TokenAuthentication>();
+    }
+
+}

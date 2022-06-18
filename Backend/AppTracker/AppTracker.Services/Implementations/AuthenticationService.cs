@@ -116,7 +116,7 @@ namespace AppTracker.Services.Implementations
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 string token = await CreateJwtTokenAsync(authenticationInput, cancellationToken);
-                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.invalidPassword, cancellationToken);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.tokenRefreshSuccess, cancellationToken);
                 return new Response<string>(messageResponse.Message, token, messageResponse.Code, true);
             }
             catch (Exception ex)

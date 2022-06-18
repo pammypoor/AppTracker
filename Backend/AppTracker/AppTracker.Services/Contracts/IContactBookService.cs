@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AppTracker.Services.Contracts
 {
-    public class IContactService
+    public class IContactBookService
     {
     }
 }

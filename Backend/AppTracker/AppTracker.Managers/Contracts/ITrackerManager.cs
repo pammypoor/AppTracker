@@ -1,8 +1,8 @@
 ﻿using AppTracker.Models.Contracts;
 
-namespace AppTracker.Services.Contracts
+namespace AppTracker.Managers.Contracts
 {
-    public interface ITrackerService
+    public interface ITrackerManager
     {
         public Task<IResponse<string>> CreateApplicationAsync(IApplication application, CancellationToken cancellationToken = default(CancellationToken));
     }

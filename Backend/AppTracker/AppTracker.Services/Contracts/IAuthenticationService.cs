@@ -8,5 +8,6 @@ namespace AppTracker.Services.Contracts
         public Task<IResponse<string>> AuthenticateAsync(IAuthenticationInput authenticationInput, CancellationToken cancellationToken = default(CancellationToken));
 
         public Task<IResponse<string>> VerifyAccountAsync(IUserAccount account, CancellationToken cancellationToken = default(CancellationToken));
+        public Task<IResponse<string>> RefreshSessionAsync(IAuthenticationInput authenticationInput, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

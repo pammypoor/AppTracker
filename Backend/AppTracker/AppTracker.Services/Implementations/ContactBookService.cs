@@ -2,7 +2,7 @@
 
 namespace AppTracker.Services.Implementations
 {
-    public class ContactService: IContactService
+    public class ContactBookService: IContactBookService
     {
     }
 }

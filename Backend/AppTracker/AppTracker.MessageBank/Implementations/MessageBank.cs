@@ -30,6 +30,8 @@ namespace AppTracker.MessageBank.Implementations
                     return await GetMessageFromDataBaseAsync("operationTimeExceeded");
                 case Responses.principalNotSet:
                     return await GetMessageFromDataBaseAsync("principalNotSet");
+                case Responses.unknownRole:
+                    return await GetMessageFromDataBaseAsync("unknownRole");
                 case Responses.databaseConnectionFail:
                     return await GetMessageFromDataBaseAsync("databaseConnectionFail");
                 case Responses.accountVerificationSuccess:
@@ -48,6 +50,16 @@ namespace AppTracker.MessageBank.Implementations
                     return await GetMessageFromDataBaseAsync("getUserHashSuccess");
                 case Responses.invalidPassword:
                     return await GetMessageFromDataBaseAsync("invalidPassword");
+                case Responses.tokenRefreshSuccess:
+                    return await GetMessageFromDataBaseAsync("tokenRefreshSuccess");
+                case Responses.alreadyAuthenticated:
+                    return await GetMessageFromDataBaseAsync("alreadyAuthenticated");
+                case Responses.notAuthenticated:
+                    return await GetMessageFromDataBaseAsync("notAuthenticated");
+                case Responses.notAuthorized:
+                    return await GetMessageFromDataBaseAsync("notAuthorized");
+                case Responses.invalidApplication:
+                    return await GetMessageFromDataBaseAsync("invalidApplication");
                 default:
                     return new MessageResponse("Error retrieving error code", 500);
             }

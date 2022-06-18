@@ -15,12 +15,10 @@ namespace AppTracker.Middleware
     {
         private RequestDelegate _next { get; }
         private IOptionsMonitor<BuildSettingsOptions> _options { get; }
-        private IMessageBank _messageBank { get; }
-        public TokenAuthentication(RequestDelegate next, IOptionsMonitor<BuildSettingsOptions> options, IMessageBank messageBank)
+        public TokenAuthentication(RequestDelegate next, IOptionsMonitor<BuildSettingsOptions> options)
         {
             _next = next;
             _options = options;
-            _messageBank = messageBank;
         }
 
         public async Task Invoke (HttpContext httpContext, IMessageBank messageBank, IAuthenticationManager authenticationManager)
@@ -59,6 +57,13 @@ namespace AppTracker.Middleware
                                 _options.CurrentValue.RoleIdentityIdentifier3).Value);
                     IRolePrincipal rolePrincipal = new RolePrincipal(roleIdentity);
                     Thread.CurrentPrincipal = rolePrincipal;
+
+                    IResponse<string> tokenRefreshResults = await authenticationManager.RefreshSessionAsync().ConfigureAwait(false);
+                    if (tokenRefreshResults.IsSuccess)
+                    {
+                        httpContext.Response.Headers.Add(_options.CurrentValue.AccessControlHeaderName, _options.CurrentValue.JWTHeaderName);
+                        httpContext.Response.Headers.Add(_options.CurrentValue.JWTHeaderName, tokenRefreshResults.Data);
+                    }
 
                 }
             }

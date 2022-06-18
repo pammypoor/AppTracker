@@ -16,6 +16,7 @@ namespace AppTracker.MessageBank.Contracts
             operationCancelled,
             operationTimeExceeded,
             principalNotSet,
+            unknownRole,
 
             // Database
             databaseConnectionFail,
@@ -30,7 +31,16 @@ namespace AppTracker.MessageBank.Contracts
             // Account Authentication
             authenticationSuccess,
             getUserHashSuccess,
-            invalidPassword
+            invalidPassword,
+            tokenRefreshSuccess,
+            alreadyAuthenticated,
+            notAuthenticated,
+
+            // Authorization
+            notAuthorized,
+
+            // Applications
+            invalidApplication
         }
         public Task<IMessageResponse> GetMessageAsync(Responses response, CancellationToken cancellationToken = default(CancellationToken));
     }

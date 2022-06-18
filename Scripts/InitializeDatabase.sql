@@ -8,15 +8,16 @@ DROP PROCEDURE IF EXISTS GetUserHash;
 DROP PROCEDURE IF EXISTS Authenticate;
 DROP PROCEDURE IF EXISTS VerifyAccount;
 DROP PROCEDURE IF EXISTS GetMessage;
+DROP PROCEDURE IF EXISTS CreateApplication;
 
-CREATE TABLE responses(
+CREATE TABLE dbo.[responses](
 	response_id BIGINT IDENTITY(1,1) NOT NULL,
 	response VARCHAR(100) NOT NULL,
 	response_message VARCHAR(150) NOT NULL,
 	code INT NOT NULL
 );
 
-CREATE TABLE  users (
+CREATE TABLE  dbo.[users] (
     user_account_id BIGINT IDENTITY(1,1) NOT NULL,
     username VARCHAR(128),
     passphrase VARCHAR(128) NOT NULL,
@@ -29,13 +30,13 @@ CREATE TABLE  users (
 	PRIMARY KEY(user_account_id)
   );
 
-CREATE TABLE hashs (
+CREATE TABLE dbo.[hashs] (
 	user_account_id BIGINT NULL,
 	user_hash VARCHAR(128) PRIMARY KEY,
 	CONSTRAINT hash_fk FOREIGN KEY(user_account_id) REFERENCES users(user_account_id)
 );
 
-CREATE TABLE applications (
+CREATE TABLE dbo.[applications] (
 	application_id BIGINT IDENTITY(1,1) NOT NULL,
 	user_hash VARCHAR(128) NOT NULL,
 	submission_datetime DATETIME,
@@ -67,9 +68,14 @@ INSERT INTO responses (response, response_message, code) VALUES
 	('accountNotFound', 'Account not found', 404),
 	('authenticationSuccess', 'Account authenticated', 200),
 	('getUserHashSuccess', 'User hash retrieved', 200),
-	('invalidPassword', 'Invalid Password', 401);
-
-
+	('invalidPassword', 'Invalid Password', 401),
+	('tokenRefreshSuccess', 'JWT Token Refreshed', 200),
+	('alreadyAuthenticated', 'User Is Already Authenticated', 401),
+	('notAuthenticated', 'User Not Authenticated', 401),
+	('invalidApplication', 'Invalid Application', 400),
+	('notAuthorized', 'Not Authorized', 403),
+	('unknownRole', 'Unknown Role', 400);
+	
 
 SET ANSI_NULLS ON
 GO
@@ -216,4 +222,31 @@ BEGIN
 		RETURN 0;
 	END CATCH;
 	RETURN 1;
+END
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[CreateApplication]
+(
+	@UserHash VARCHAR(128),
+	@SubmissionDateTime DATETIME,
+	@Company VARCHAR(150),
+	@Position VARCHAR(150),
+	@Type VARCHAR(50),
+	@Status VARCHAR(100),
+	@Link VARCHAR(200),
+	@State VARCHAR(100),
+	@City VARCHAR(100),
+	@Country VARCHAR(150),
+	@Description VARCHAR(750),
+	@IsRemote BIT,
+	@Deleted BIT
+)
+AS
+BEGIN
+	INSERT INTO applications (user_hash, submission_datetime, company, position, application_type, application_status, link, company_state, company_city, company_country, application_description, is_remote, deleted)
+		VALUES(@UserHash, @SubmissionDateTime, @Company, @Position, @Type, @Status, @Link, @State, @City, @Country, @Description, @IsRemote, @Deleted);
 END

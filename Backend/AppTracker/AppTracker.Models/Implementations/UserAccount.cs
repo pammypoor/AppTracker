@@ -39,5 +39,10 @@ namespace AppTracker.Models.Implementations
             this.Password = Password;
             this.AuthorizationLevel = AuthorizationLevel;
         }
+        public UserAccount(string Email, string AuthorizationLevel)
+        {
+            this.Email = Email;
+            this.AuthorizationLevel = AuthorizationLevel;
+        }
     }
 }

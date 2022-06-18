@@ -52,6 +52,11 @@ namespace AppTracker.DataAccessLayer.Implementations
                     return new Response<string>(messageResponse.Message, parameters.Get<string>("Result"), messageResponse.Code, true);
                 }
             }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<string>(messageResponse.Message, messageResponse.Message + ex.Message, messageResponse.Code, false);
+            }
         }
     }
 }
