@@ -10,6 +10,7 @@
         public string AccessControlHeaderName { get; set; } = String.Empty;
         public string RoleIdentityIdentifier1 { get; set; } = String.Empty;
         public string RoleIdentityIdentifier2 { get; set; } = String.Empty;
+        public string RoleIdentityIdentifier3 { get; set; } = String.Empty;
         public string User { get; set; } = String.Empty;
         public string Admin { get; set; } = String.Empty;
         public string JwtIssuer { get; set; } = String.Empty;

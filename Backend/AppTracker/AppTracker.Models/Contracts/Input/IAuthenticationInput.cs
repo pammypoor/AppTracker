@@ -8,7 +8,7 @@ namespace AppTracker.Models.Contracts.Input
 {
     public interface IAuthenticationInput
     {
-        public IUserAccount UserAccount { get; set; }
+        public IUserAccount  UserAccount { get; set; }
         string UserHash { get; set; }
     }
 }

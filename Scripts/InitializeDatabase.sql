@@ -68,26 +68,29 @@ BEGIN
 	RETURN 0;
 END
 
-
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[Authenticate]
-(
+CREATE PROCEDURE dbo.[Authenticate] 
+	-- Add the parameters for the stored procedure here
 	@email VARCHAR(128),
-	@Result VARCHAR(128) OUTPUT
-)
+    @passphrase VARCHAR(128),
+	@Result int OUTPUT
 AS
 BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
 	SET NOCOUNT ON;
-	BEGIN TRY;
-		SET @Result = (SELECT user_hash FROM hashs WHERE user_account_id = (SELECT user_account_id FROM users WHERE email = @email));
-		IF(@Result  IS NOT NULL)
-			RETURN 1;
-	END TRY
-	BEGIN CATCH
-		RETURN 0;
-	END CATCH;
-	RETURN 0;
+	BEGIN TRAN
+		SET @Result = (SELECT COALESCE(
+				(SELECT CASE 
+						WHEN CAST(Passphrase as BINARY) = CAST(@Passphrase as BINARY) THEN 1
+						ELSE 2
+					END AS Result
+					FROM users
+					WHERE email = @email), 0
+				)
+			)
+	RETURN @Result;
 END
