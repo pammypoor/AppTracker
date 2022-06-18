@@ -110,6 +110,22 @@ namespace AppTracker.Services.Implementations
             }
         }
 
+        public async Task<IResponse<string>> RefreshSessionAsync(IAuthenticationInput authenticationInput, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                string token = await CreateJwtTokenAsync(authenticationInput, cancellationToken);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.invalidPassword, cancellationToken);
+                return new Response<string>(messageResponse.Message, token, messageResponse.Code, true);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<string>(messageResponse.Message, messageResponse.Message + ex.Message, messageResponse.Code, false);
+            }
+        }
+
         private async Task<string> CreateJwtTokenAsync(IAuthenticationInput authenticationInput, CancellationToken cancellationToken = default(CancellationToken))
         {
             try

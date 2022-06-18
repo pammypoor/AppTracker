@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Principal;
+
 
 namespace AppTracker.Models.Contracts
 {
-    public interface IRoleIdentity
+    public interface IRoleIdentity: IIdentity
     {
         string AuthorizationLevel { get; }
         string UserHash { get; }

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AppTracker.MessageBank\AppTracker.MessageBank.csproj" />
     <ProjectReference Include="..\AppTracker.Models\AppTracker.Models.csproj" />
   </ItemGroup>
 
