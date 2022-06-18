@@ -34,6 +34,8 @@ namespace AppTracker.MessageBank.Implementations
                     return await GetMessageFromDataBaseAsync("databaseConnectionFail");
                 case Responses.accountVerificationSuccess:
                     return await GetMessageFromDataBaseAsync("accountVerificationSuccess");
+                case Responses.accountVerificationFail:
+                    return await GetMessageFromDataBaseAsync("accountVerificationFail");
                 case Responses.accountNotEnabled:
                     return await GetMessageFromDataBaseAsync("accountNotEnabled");
                 case Responses.accountNotConfirmed:
@@ -42,6 +44,10 @@ namespace AppTracker.MessageBank.Implementations
                     return await GetMessageFromDataBaseAsync("accountNotFound");
                 case Responses.authenticationSuccess:
                     return await GetMessageFromDataBaseAsync("authenticationSuccess");
+                case Responses.getUserHashSuccess:
+                    return await GetMessageFromDataBaseAsync("getUserHashSuccess");
+                case Responses.invalidPassword:
+                    return await GetMessageFromDataBaseAsync("invalidPassword");
                 default:
                     return new MessageResponse("Error retrieving error code", 500);
             }

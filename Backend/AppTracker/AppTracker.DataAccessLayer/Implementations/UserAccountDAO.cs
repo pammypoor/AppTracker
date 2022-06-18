@@ -84,7 +84,8 @@ namespace AppTracker.DataAccessLayer.Implementations
                     var result = await connection.ExecuteScalarAsync<string>(new CommandDefinition(procedure, parameters,
                         commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken)).ConfigureAwait(false);
 
-                    return new Response<string>("success", parameters.Get<string>("Result"), 200, true);
+                    IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.getUserHashSuccess);
+                    return new Response<string>(messageResponse.Message, parameters.Get<string>("Result"), messageResponse.Code, true);
                 }
             }
             catch (SqlException ex)
@@ -92,19 +93,27 @@ namespace AppTracker.DataAccessLayer.Implementations
                 switch (ex.Number)
                 {
                     case -1:
-                        return new Response<string>("cannot connect to database", "-1", 503, false);
+                        {
+                            IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.databaseConnectionFail);
+                            return new Response<string>(messageResponse.Message, "-1", messageResponse.Code, false);
+                        }
                     default:
-                        return new Response<string>("unhandled exception" + ex.Message, "-1", 500, false);
+                        {
+                            IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                            return new Response<string>(messageResponse.Message + ex.Message, "-1", messageResponse.Code, false);
+                        }
                 }
 
             }
             catch (OperationCanceledException ex)
             {
-                return new Response<string>("cancellation requested", "-1", 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled);
+                return new Response<string>(messageResponse.Message + ex.Message, "-1", messageResponse.Code, false);
             }
             catch (Exception ex)
             {
-                return new Response<string>("unhandled exception" + ex.Message, "-1", 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                return new Response<string>(messageResponse.Message + ex.Message, "-1", messageResponse.Code, false);
             }
         }
 
@@ -124,7 +133,8 @@ namespace AppTracker.DataAccessLayer.Implementations
                     commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken))
                     .ConfigureAwait(false);
 
-                    return new Response<int>("success", parameters.Get<int>("Result"), 200, true);
+                    IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.accountVerificationSuccess);
+                    return new Response<int>(messageResponse.Message, parameters.Get<int>("Result"), messageResponse.Code, true);
                 }
             }
             catch (SqlException ex)
@@ -132,19 +142,27 @@ namespace AppTracker.DataAccessLayer.Implementations
                 switch (ex.Number)
                 {
                     case -1:
-                        return new Response<int>("cannot connect to database", 0, 503, false);
+                        {
+                            IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.databaseConnectionFail);
+                            return new Response<int>(messageResponse.Message, 0, messageResponse.Code, false);
+                        }
                     default:
-                        return new Response<int>("unhandled exception" + ex.Message, 0, 500, false);
+                        {
+                            IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                            return new Response<int>(messageResponse.Message + ex.Message, 0, messageResponse.Code, false);
+                        }
                 }
 
             }
             catch (OperationCanceledException ex)
             {
-                return new Response<int>("cancellation requested", 0, 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled);
+                return new Response<int>(messageResponse.Message + ex.Message, 0, messageResponse.Code, false);
             }
             catch (Exception ex)
             {
-                return new Response<int>("unhandled exception" + ex.Message, 0, 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                return new Response<int>(messageResponse.Message + ex.Message, 0, messageResponse.Code, false);
             }
         }
 

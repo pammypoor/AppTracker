@@ -1,4 +1,5 @@
 ﻿using AppTracker.Managers.Contracts;
+using AppTracker.MessageBank.Contracts;
 using AppTracker.Models.Contracts;
 using AppTracker.Models.Implementations;
 using AppTracker.Models.Implementations.Input;
@@ -11,9 +12,11 @@ namespace AppTracker.Managers.Implementations
     {
         private IAuthenticationService _authenticationService { get; }
 
-        public AuthenticationManager(IAuthenticationService authenticationService)
+        private IMessageBank _messageBank { get; }
+        public AuthenticationManager(IAuthenticationService authenticationService, IMessageBank messageBank)
         {
             _authenticationService = authenticationService;
+            _messageBank = messageBank;
         }
 
         public async Task<IResponse<string>> AuthenticateAsync(string email, string password, string authenticationLevel, CancellationToken cancellationToken = default(CancellationToken))
@@ -38,10 +41,9 @@ namespace AppTracker.Managers.Implementations
             }
             catch (Exception ex)
             {
-                return new Response<string>("unhandled exception" + ex.Message, "", 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<string>(messageResponse.Message, messageResponse.Message + ex.Message, messageResponse.Code, false);
             }
-
-
         }
 
     }

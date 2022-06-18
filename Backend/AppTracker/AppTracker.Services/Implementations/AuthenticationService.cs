@@ -1,4 +1,5 @@
 ﻿using AppTracker.DataAccessLayer.Contracts;
+using AppTracker.MessageBank.Contracts;
 using AppTracker.Models;
 using AppTracker.Models.Contracts;
 using AppTracker.Models.Contracts.Input;
@@ -17,13 +18,13 @@ namespace AppTracker.Services.Implementations
     {
         private IUserAccountDAO _userAccountDAO { get; }
         private BuildSettingsOptions _options { get; }
-        private string _payLoad { get; }
+        private IMessageBank _messageBank { get; }
 
-        public AuthenticationService(IUserAccountDAO userAccountDAO, IOptionsSnapshot<BuildSettingsOptions> options)
+        public AuthenticationService(IUserAccountDAO userAccountDAO, IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
         {
             _userAccountDAO = userAccountDAO;
             _options = options.Value;
-            _payLoad = "";
+            _messageBank = messageBank;
         }
 
         public async Task<IResponse<string>> AuthenticateAsync(IAuthenticationInput authenticationInput, CancellationToken cancellationToken = default(CancellationToken))
@@ -32,26 +33,38 @@ namespace AppTracker.Services.Implementations
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                IResponse<string> GetUserHashResult = await _userAccountDAO.GetUserHashAsync(authenticationInput.UserAccount);
-                authenticationInput.UserHash = GetUserHashResult.Data;
+                IResponse<string> getUserHashResult = await _userAccountDAO.GetUserHashAsync(authenticationInput.UserAccount);
+
+                if(!getUserHashResult.IsSuccess)
+                {
+                    return getUserHashResult;
+                }
+
+                authenticationInput.UserHash = getUserHashResult.Data;
 
                 string token = await CreateJwtTokenAsync(authenticationInput, cancellationToken).ConfigureAwait(false);
 
                 IResponse<int> authenticateResult = await _userAccountDAO.AuthenticateAsync(authenticationInput, cancellationToken).ConfigureAwait(false);
 
+                
                 switch (authenticateResult.Data)
                 {
                     case 1:
                         return new Response<string>(authenticateResult.ErrorMessage, authenticateResult.ErrorMessage, authenticateResult.StatusCode, true);
-                            break;
                     default:
-                        // Not correct
-                        throw new Exception(authenticateResult.Data.ToString());
+                        {
+                            // Not correct
+                            IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.invalidPassword, cancellationToken);
+                            return new Response<string>(messageResponse.Message, messageResponse.Message, messageResponse.Code, false);
+                        }
+                        
+
                 };
             }
             catch(Exception ex)
             {
-                return new Response<string>("unhandled exception" + ex.Message, "-1", 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<string>(messageResponse.Message, messageResponse.Message + ex.Message, messageResponse.Code, false);
             }
         }
 
@@ -61,18 +74,34 @@ namespace AppTracker.Services.Implementations
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 IResponse<int> result = await _userAccountDAO.VerifyAccountAsync(account, cancellationToken);
+                
+                IMessageResponse messageResponse;
                 switch (result.Data)
                 {
                     case 0:
-                        return new Response<string>("Account Not Found", "Account Not Found", 404, false);
+                        messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.accountNotFound);
+                        break;
                     case 1:
-                        return new Response<string>("success", "", 200, true);
+                        messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.accountVerificationSuccess);
+                        break;
                     case 2:
-                        return new Response<string>("Account Disabled", "Account Disabled", 403, false);
+                        messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.accountNotEnabled);
+                        break;
                     case 3:
-                        return new Response<string>("Account Unconfirmed", "Account Unconfirmed", 403, false);
+                        messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.accountNotConfirmed);
+                        break;
                     default:
-                        return new Response<string>("Error Validating", "Error Validating", 500, false);
+                        messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.accountVerificationFail);
+                        break;
+                }
+
+                if(messageResponse.Code == 200)
+                {
+                    return new Response<string>(messageResponse.Message, messageResponse.Message, messageResponse.Code, true);
+                } 
+                else
+                {
+                    return new Response<string>(messageResponse.Message, messageResponse.Message, messageResponse.Code, false);
                 }
             }
             catch (Exception ex)
@@ -112,9 +141,9 @@ namespace AppTracker.Services.Implementations
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 return tokenHandler.WriteToken(token);
             }
-            catch (Exception ricf)
+            catch (Exception ex)
             {
-                return ricf.Message;
+                return ex.Message;
             }
         }
     }

@@ -42,10 +42,13 @@ INSERT INTO responses (response, response_message, code) VALUES
 	('principalNotSet', 'Principal was not set correctly.', 500),
 	('databaseConnectionFail', 'Unable to connect to database', 503),
 	('accountVerificationSuccess', 'Account verified', 200),
+	('accountVerificationFail', 'Cannot Verify Account', 500),
 	('accountNotEnabled', 'Account not enabled', 401),
 	('accountNotConfirmed', 'Account not confirmed', 401),
 	('accountNotFound', 'Account not found', 404),
-	('authenticationSuccess', 'Account authenticated', 200);
+	('authenticationSuccess', 'Account authenticated', 200),
+	('getUserHashSuccess', 'User hash retrieved', 200),
+	('invalidPassword', 'Invalid Password', 401);
 
 
 

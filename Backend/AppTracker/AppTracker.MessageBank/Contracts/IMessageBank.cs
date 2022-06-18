@@ -22,12 +22,15 @@ namespace AppTracker.MessageBank.Contracts
 
             // Account Verification
             accountVerificationSuccess,
+            accountVerificationFail,
             accountNotEnabled,
             accountNotConfirmed,
             accountNotFound,
 
             // Account Authentication
-            authenticationSuccess
+            authenticationSuccess,
+            getUserHashSuccess,
+            invalidPassword
         }
         public Task<IMessageResponse> GetMessageAsync(Responses response, CancellationToken cancellationToken = default(CancellationToken));
     }
