@@ -1,4 +1,5 @@
 ﻿using AppTracker.Managers.Contracts;
+using AppTracker.MessageBank.Contracts;
 using AppTracker.Models;
 using AppTracker.Models.Contracts;
 using AppTracker.WebAPI.Controllers.Contracts;
@@ -15,12 +16,14 @@ namespace AppTracker.WebAPI.Controllers.Implementations
     {
         private IAuthenticationManager _authenticationManager { get; }
         private BuildSettingsOptions _options { get; }
+        private IMessageBank _messageBank { get; }
 
-        public AuthenticationController(IAuthenticationManager authenticationManager, IOptionsSnapshot<BuildSettingsOptions> buildSettingsOptions)
+        public AuthenticationController(IAuthenticationManager authenticationManager, IOptionsSnapshot<BuildSettingsOptions> buildSettingsOptions, IMessageBank messageBank)
         {
             _authenticationManager=authenticationManager;
             _options=buildSettingsOptions.Value;
-        }
+            _messageBank=messageBank;
+         }
 
         [HttpPost("authenticate")]
         public async Task<IActionResult> AuthenticateAsync(string email, string password)
@@ -33,7 +36,8 @@ namespace AppTracker.WebAPI.Controllers.Implementations
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                return StatusCode(messageResponse.Code, messageResponse.Message);
             }
         }
 

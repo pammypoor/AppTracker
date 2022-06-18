@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS applications;
 DROP TABLE IF EXISTS hashs;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS responses;
@@ -32,6 +33,24 @@ CREATE TABLE hashs (
 	user_account_id BIGINT NULL,
 	user_hash VARCHAR(128) PRIMARY KEY,
 	CONSTRAINT hash_fk FOREIGN KEY(user_account_id) REFERENCES users(user_account_id)
+);
+
+CREATE TABLE applications (
+	application_id BIGINT IDENTITY(1,1) NOT NULL,
+	user_hash VARCHAR(128) NOT NULL,
+	submission_datetime DATETIME,
+	company VARCHAR(150) NOT NULL,
+	position VARCHAR(150) NOT NULL,
+	application_type VARCHAR(50),
+	application_status VARCHAR(100),
+	link VARCHAR(200),
+	company_state VARCHAR(100),
+	company_city VARCHAR(100),
+	company_country VARCHAR(150),
+	application_description VARCHAR(750),
+	is_remote bit,
+	deleted bit,
+	CONSTRAINT applications_fk FOREIGN KEY (user_hash) REFERENCES hashs(user_hash)
 );
 
 INSERT INTO responses (response, response_message, code) VALUES

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppTracker.DataAccessLayer.Implementations
+namespace AppTracker.DataAccessLayer.Contracts
 {
-    public class TrackerDAO
+    public interface IApplicationDAO
     {
+
     }
 }

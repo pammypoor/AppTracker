@@ -17,6 +17,7 @@ namespace AppTracker.Models.Implementations
         public string City { get; set; }
         public string Country { get; set; }
         public string Description { get; set; }
+        public bool IsRemote { get; set; }
         public bool Deleted { get; set; }
         
         public bool Equals(Application? obj)
@@ -26,6 +27,13 @@ namespace AppTracker.Models.Implementations
                 return ApplicationID.Equals(obj.ApplicationID);
             }
             return false;
+        }
+
+        public Application(string userHash, string position, string company)
+        {
+            UserHash = userHash;
+            Position = position;
+            Company = company;
         }
 
         public Application(string userHash, DateTime submissionDateTime, string company, string position, string type, string status, long salary, string link, string state, string city, string country, string description, bool deleted)
