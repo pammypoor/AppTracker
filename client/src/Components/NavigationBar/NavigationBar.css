@@ -35,8 +35,9 @@
 
 @media only screen and (max-width: 500px) {
     .authenticated-navbar-container {
-		position: relative;
-        
+		display: flex;
+        flex-direction: row;
+        align-items: center;
 	}
 
 	.nav-links {

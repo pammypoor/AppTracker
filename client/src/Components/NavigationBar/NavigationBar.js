@@ -64,7 +64,7 @@ function NavigationBar() {
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a href=""   className="nav-link" onClick={toggleMenu}>
+                        <a href="\SignIn"   className="nav-link" onClick={toggleMenu}>
                             Sign In
                         </a>
                     </li>

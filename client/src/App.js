@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./Pages/Home/Home";
+import SignIn from "./Pages/SignIn/SignIn";
 
 class App extends React.Component {
   constructor(props){
@@ -17,6 +18,7 @@ class App extends React.Component {
           <header></header>
           <Routes>
             <Route path = "/" element = {<Home />}/>
+            <Route path = "/SignIn" element = {<SignIn />}/>
           </Routes>
         </Router>
       </div>
