@@ -1,8 +1,11 @@
 import React from "react";
 import axios from "axios";
 import pbkdf2 from "pbkdf2/lib/sync";
+import { FaUserTie } from 'react-icons/fa';
 
-class SignInForm extends React.Component {
+import "./SignInUpForm.css";
+
+class SignInUpForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -33,14 +36,15 @@ class SignInForm extends React.Component {
             this.setState({errorMessage:''});
             axios.post('https://localhost:7199/Authentication/authenticate?email=' + this.state.email.toLowerCase() + '&password=' + this.hashValue(this.state.password))
             .then(response => {
-                console.log(response);
+                sessionStorage.setItem('authorization', response.data);
+                window.location = '/Portal';
             })
             .catch(err => {
-                console.log(this.state.password);
             })
         }
 
-        this.setState({ email: ''});
+        this.setState( {email : ''});
+        this.setState( {password: ''});
     }
 
     validateInput () {
@@ -68,13 +72,20 @@ class SignInForm extends React.Component {
         return (
             <div className="signin-form-container">
                 <form className="signin-form" onSubmit = {this.onSubmitHandler}>
-                    <input type="text" value = {this.state.email} required placeholder="Email" onChange = {this.inputEmailHandler}/>
-                    <input type="password" value={this.state.password} required placeholder="Password" onChange={this.inputPasswordHandler}/>
-                    <button className="signin-button">Sign In</button>
+                    <div className="signin-username-field">
+                        <input type="text" value = {this.state.email} required placeholder="Email" onChange = {this.inputEmailHandler}/>
+                    </div>
+                    <div className="signin-password-field">
+                        <input type="password" value={this.state.password} required placeholder="Password" onChange={this.inputPasswordHandler}/>
+                    </div>
+                    <div className="signin-button-field">
+                        <button className="signin-button">Sign In</button>
+                    </div>
+                    {this.state.errorMessage && <div className="error-signin">{this.state.errorMessage}</div>}
                 </form>
             </div>
         )
     }
 }
 
-export default SignInForm;
+export default SignInUpForm;

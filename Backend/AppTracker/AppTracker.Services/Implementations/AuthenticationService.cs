@@ -50,15 +50,13 @@ namespace AppTracker.Services.Implementations
                 switch (authenticateResult.Data)
                 {
                     case 1:
-                        return new Response<string>(authenticateResult.ErrorMessage, authenticateResult.ErrorMessage, authenticateResult.StatusCode, true);
+                        return new Response<string>(authenticateResult.ErrorMessage, token, authenticateResult.StatusCode, true);
                     default:
                         {
                             // Not correct
                             IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.invalidPassword, cancellationToken);
                             return new Response<string>(messageResponse.Message, messageResponse.Message, messageResponse.Code, false);
                         }
-                        
-
                 };
             }
             catch(Exception ex)

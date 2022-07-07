@@ -3,7 +3,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Home from "./Pages/Home/Home";
-import SignIn from "./Pages/SignIn/SignIn";
+import SignInUpForm from "./Components/Forms/SignInUp/SignInUpForm";
+import Portal from "./Pages/Portal/Portal";
+import NewApplication from "./Pages/NewApplication/NewApplication";
 
 class App extends React.Component {
   constructor(props){
@@ -18,7 +20,9 @@ class App extends React.Component {
           <header></header>
           <Routes>
             <Route path = "/" element = {<Home />}/>
-            <Route path = "/SignIn" element = {<SignIn />}/>
+            <Route path = "/SignIn" element = {<SignInUpForm />}/>
+            <Route path = "/Portal" element = {<Portal/>}/>
+            <Route path = "/NewApplication" element = {<NewApplication/>}/>
           </Routes>
         </Router>
       </div>

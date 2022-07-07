@@ -1,5 +1,5 @@
 import React from "react";
-import SignInForm from "../../Components/Forms/SignInForm/SignInForm";
+import SignInForm from "../../Components/Forms/SignInUp/SignInUpForm";
 
 class SignIn extends React.PureComponent {
     render() {
