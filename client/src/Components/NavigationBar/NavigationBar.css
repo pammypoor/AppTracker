@@ -1,37 +1,41 @@
-
-.authenticated-navbar-container {
+.authenticated-navbar {
     height: 80px;
     width: 100%;
-    color: #283618;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 2rem;
     font-size: 1.2rem;
 }
 
 .nav-logo {
-    text-decoration: none;
     margin-left: 20px;
+    text-decoration: none;
 }
 
 .nav-links {
     display: grid;
     grid-template-columns: repeat(6, auto);
     grid-gap: 20px;
-    list-style: none;
+    list-style: none;  
+}
+
+.nav-link:hover {
+    color: red;
 }
 
 .nav-link {
     text-decoration: none;
     transition: 0.2s all;
-    color: #fb8500;
 }
 
-.nav-icon{
+.nav-icon {
     display: none;
     font-size: 2rem;
     cursor: pointer;
 }
+
+
 
 @media only screen and (max-width: 500px) {
     .authenticated-navbar-container {

@@ -41,18 +41,18 @@ function NavigationBar() {
     }
 
     const renderNav = (
-        <nav className = "authenticated-navbar-container">
-            <ul className = "authenticated-navbar">
+        <div className = "authenticated-navbar-container">
+            <nav className = "authenticated-navbar">
                 <Link to="/" className="nav-logo" onClick = {toggleMenu}>
                     Logo
                 </Link>
-                <div className="nav-theme-toggle">
-                    {renderToggle}
-                </div>
                 <div onClick = {toggleMenu} className="nav-icon">
                     {menuOpen ? <FiX/> : <FiMenu/>}
                 </div>
                 <ul className = {menuOpen ? 'nav-links active': 'nav-links'}>
+                    <li className="nav-theme-toggle">
+                        {renderToggle}
+                    </li>
                     <li className="nav-item">
                         <a href="" className="nav-link" onClick={toggleMenu}>
                             About
@@ -70,8 +70,8 @@ function NavigationBar() {
                     </li>
                 </ul>
                 
-            </ul>
-        </nav>
+            </nav>
+        </div>
     )
 
     return (
