@@ -2,6 +2,7 @@ import React from "react";
 import jwt_decode from "jwt-decode";  
 
 import NewApplicationButton from "../../Components/Buttons/NewApplication/NewApplicationButton";
+import NavigationBar from "../../Components/NavigationBar/NavigationBar";
 
 class Portal extends React.PureComponent {
     constructor(props){
@@ -45,6 +46,9 @@ class Portal extends React.PureComponent {
 
         return(
             <div className ="portal-wrapper">
+                <div className="portal-navbar-wrapper">
+                    <NavigationBar/>
+                </div>
                {renderNewApplicationButton}
             </div>
         );

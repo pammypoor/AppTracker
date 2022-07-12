@@ -1,4 +1,4 @@
-.authenticated-navbar {
+.not-authenticated-navbar {
     height: 80px;
     width: 100%;
     display: flex;
@@ -20,6 +20,11 @@
     list-style: none;  
 }
 
+.auth-nav-logo {
+    margin-left: 20px;
+    text-decoration: none; 
+}
+
 .nav-link:hover {
     color: red;
 }
@@ -35,10 +40,71 @@
     cursor: pointer;
 }
 
+.authenticated-navbar-container {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 2rem;
+    font-size: 1.2rem;
+}
 
+.authenticated-navbar-container ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.auth-nav-links {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 20px;
+    list-style: none;  
+}
+
+.authenticated-navbar-container ul li {
+    display: inline-block;
+    list-style-type: none;
+    cursor: pointer;
+}
+
+.nav-context-menu {
+    border-radius: 2px;
+    box-shadow: 0 0 2px black;
+    font-size: 1em;
+    font-weight: 400;
+    list-style: none;
+    transition: opacity 0.25s linear;
+    width: 150px;
+    white-space: nowrap;
+}
+
+.navbar-profile {
+    background-color: green;
+    color: white;
+    font-size: 1em;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 2em;
+    float: right;
+    margin-right: 50px;
+}
+
+.navbar-profile p {
+    text-align: center;
+}
+
+.auth-profile {
+    font-size: 25px;
+    padding-top: 10px;
+    padding-right:10px;
+}
 
 @media only screen and (max-width: 500px) {
-    .authenticated-navbar-container {
+    .not-authenticated-navbar-container {
 		display: flex;
         flex-direction: row;
         align-items: center;
