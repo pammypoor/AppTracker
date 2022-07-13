@@ -23,6 +23,11 @@ function NavigationBar() {
         const token = sessionStorage.getItem('authorization');
         if(token != null){
             const decoded = jwt_decode(token);
+            const now = new Date();
+            if(now.getTime() > decoded.exp * 1000){
+                sessionStorage.removeItem('authorization');
+                window.location = '/';
+            }
             setProfileData(decoded.email[0]);
             setIsAuthenticated(true);
         }      
@@ -86,14 +91,14 @@ function NavigationBar() {
 
     const handleLeftMouseClickProfile = (e) => {
         const x = window.innerWidth-10;
-        const y = 70;
+        const y = 80;
         showMenu({
             position: {x, y},
             id: "contextmenu"
         });
     }
 
-    const handleLogout = (e) => {
+    const handleSignOut = (e) => {
         e.preventDefault();
         sessionStorage.removeItem('authorization');
         window.location = "/";
@@ -116,7 +121,8 @@ function NavigationBar() {
                             </div>
                         </ContextMenuTrigger>
                         <ContextMenu id = "contextmenu" className="nav-context-menu">
-                            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                            <MenuItem>Settings</MenuItem>
+                            <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
                         </ContextMenu>
                     </div>
                 </li>

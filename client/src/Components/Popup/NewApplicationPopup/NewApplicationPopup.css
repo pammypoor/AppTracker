@@ -1,0 +1,35 @@
+.new-application-popup-modal {
+    font-size: 12px;
+    border: 1px solid black;
+    padding: 10px;
+    width: 500px;
+}
+
+.new-application-popup-modal > .new-application-popup-header {
+    width: 100%;
+    border-bottom: 1 px solid gray;
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+}
+
+.new-application-popup-modal > .new-application-popup-content {
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.new-application-popup-modal > .new-application-popup-close {
+    cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 2px 5px;
+    line-height: 20px;
+    right: 0px;
+    top: 0px;
+    font-size: 25px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    overflow: hidden;
+    outline: none;
+}

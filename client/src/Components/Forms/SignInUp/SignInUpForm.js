@@ -69,7 +69,7 @@ class SignInUpForm extends React.Component {
     }
 
     render() {
-        return (
+        const renderSignInForm = (
             <div className="signin-form-container">
                 <form className="signin-form" onSubmit = {this.onSubmitHandler}>
                     <div className="signin-username-field">
@@ -83,6 +83,13 @@ class SignInUpForm extends React.Component {
                     </div>
                     {this.state.errorMessage && <div className="error-signin">{this.state.errorMessage}</div>}
                 </form>
+            </div>
+        )
+
+
+        return (
+            <div className="signinup-form-container">
+                {renderSignInForm}
             </div>
         )
     }

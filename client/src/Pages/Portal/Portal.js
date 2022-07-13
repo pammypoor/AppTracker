@@ -3,6 +3,7 @@ import jwt_decode from "jwt-decode";
 
 import NewApplicationButton from "../../Components/Buttons/NewApplication/NewApplicationButton";
 import NavigationBar from "../../Components/NavigationBar/NavigationBar";
+import NewApplicationPopup from "../../Components/Popup/NewApplicationPopup/NewApplicationPopup";
 
 class Portal extends React.PureComponent {
     constructor(props){
@@ -39,7 +40,8 @@ class Portal extends React.PureComponent {
     render() {
         const renderNewApplicationButton = (
             <div className="new-application-button-wrapper">
-                <NewApplicationButton type="button" name="New Application" onClick={this.onClickNewApplication}/>
+                
+                <NewApplicationPopup/>
             </div>
         );
 

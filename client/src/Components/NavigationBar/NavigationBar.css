@@ -78,6 +78,7 @@
     transition: opacity 0.25s linear;
     width: 150px;
     white-space: nowrap;
+    padding-left: 15px;
 }
 
 .navbar-profile {
@@ -91,6 +92,10 @@
     line-height: 2em;
     float: right;
     margin-right: 50px;
+}
+
+.auth-nav-theme-toggle {
+    margin-top: 20px;
 }
 
 .navbar-profile p {
@@ -135,4 +140,10 @@
 		display: flex;
         padding-right: 40px;
 	}
+
+    .authenticated-navbar-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 }
