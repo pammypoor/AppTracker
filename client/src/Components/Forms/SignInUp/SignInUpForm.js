@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import pbkdf2 from "pbkdf2/lib/sync";
-import { FaUserTie } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import {Link} from "react-router-dom";
 
 import "./SignInUpForm.css";
 
@@ -12,16 +13,9 @@ class SignInUpForm extends React.Component {
             email: '',
             password: '',
             token: sessionStorage.getItem('authorization'),
-            errorMessage: ''
+            errorMessage: '',
+            showPassword: false
         }
-    }
-
-    inputEmailHandler = (e) => {
-        this.setState({email: e.target.value});
-    }
-
-    inputPasswordHandler = (e) => {
-        this.setState({password : e.target.value});
     }
 
     hashValue = (value) => {
@@ -71,15 +65,27 @@ class SignInUpForm extends React.Component {
     render() {
         const renderSignInForm = (
             <div className="signin-form-container">
-                <form className="signin-form" onSubmit = {this.onSubmitHandler}>
+                <form className="signin-form">
                     <div className="signin-username-field">
-                        <input type="text" value = {this.state.email} required placeholder="Email" onChange = {this.inputEmailHandler}/>
+                        <input className="signin-input" id="signin-email" type="text" value = {this.state.email} required placeholder="Email" onChange = {(e) => this.setState({email: e.target.value})}/>
+                    </div>
+                    <div className="signin-between-fields-spacing">
+                        
                     </div>
                     <div className="signin-password-field">
-                        <input type="password" value={this.state.password} required placeholder="Password" onChange={this.inputPasswordHandler}/>
+                        <div className="signin-password-input-span">
+                            <input className="signin-password-input" id="signin-password" type= {this.state.showPassword ? 'text': 'password'} value={this.state.password} required placeholder="Password" onChange={(e) =>this.setState({password: e.target.value})}></input>
+                            <span className="signin-toggle-password" onClick={(e) => this.setState ({ showPassword: !this.state.showPassword})}>
+                                {this.showPassword ? <FaEye/>: <FaEyeSlash/>}
+                            </span> 
+                        </div>
+                        
+                    </div>
+                    <div className="signin-forgot-password">
+                        <Link to="/forgotPassword">Forgot Password?</Link>
                     </div>
                     <div className="signin-button-field">
-                        <button className="signin-button">Sign In</button>
+                        <button className="signin-button" onClick={this.onSubmitHandler}>Sign In</button>
                     </div>
                     {this.state.errorMessage && <div className="error-signin">{this.state.errorMessage}</div>}
                 </form>

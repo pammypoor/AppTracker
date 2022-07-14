@@ -1,10 +1,76 @@
 .signin-form-container{
-    position: relative;
-    margin: 0 autio 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.25);
     padding: 30px;
-    border-radius: 5px;
+}
+
+
+.signin-input {
+    font-size: 1.2rem;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    border: none;
+    width: 80%;
+    display: block;
+    border-bottom: 0.3rem solid transparent;
+    transition: all 0.3s;
+    background-color: #e9ecef;
+}
+
+.signin-password-input {
+    font-size: 1.2rem;
+    padding: 1.5rem 2rem;
+    border: none;
+    border-bottom: 0.3rem solid transparent;
+    transition: all 0.3s;
+    width: 65%;
+    background-color: #e9ecef;
+}
+.signin-password-input-span {
+    display: relative;
+}
+
+.signin-between-fields-spacing {
+    margin: 20px 0;
+}
+.signin-toggle-password {
+    font-size: 1rem;
+    padding: 1.5rem 1rem;
+    border: none;
+    border-bottom: 0.35rem solid transparent;
+    transition: all 0.3s;
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+.signin-forgot-password {
+    padding: 10px 10px;
+    text-align: right;
+}
+
+.signin-forgot-password a {
+    text-decoration: none;
+    color: black;
+}
+
+.signin-forgot-password a:hover {
+    color: red;
+}
+
+.signin-password-input:placeholder-shown + .signin-label {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(-4rem);
+    transform: translateY(-4rem);
+}
+
+.signin-input:placeholder-shown + .signin-label {
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transform: translateY(-4rem);
+    transform: translateY(-4rem);
 }
 
 .error-signin {
