@@ -10,9 +10,13 @@ class NewApplicationForm extends React.Component {
         this.state = {
             token: sessionStorage.getItem('authorization'),
             errorMessage: '',
-            company: '', 
-            position: ''
-
+            company: ''
+        };
+        this.applicationState = {
+            company: '',
+            position: '',
+            link: '', 
+            city: ''
         }
     }
 
@@ -38,6 +42,11 @@ class NewApplicationForm extends React.Component {
     }
 
     render() {
+        const steps = 
+        [
+            {name: 'Step 1', component: <PositionInfoForm/>}
+        ]
+
         const renderProgressBar = (
             <div className="new-application-form-progress">
                 
@@ -51,6 +60,7 @@ class NewApplicationForm extends React.Component {
 
         return (
             <div className="new-application-form-container">
+                TEST
                 {renderProgressBar}
             </div>
 
