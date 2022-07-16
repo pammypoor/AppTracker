@@ -1,7 +1,9 @@
 DROP TABLE IF EXISTS applications;
+DROP TABLE IF EXISTS profiles;
 DROP TABLE IF EXISTS hashs;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS responses;
+
 
 DROP PROCEDURE IF EXISTS CreateAccount;
 DROP PROCEDURE IF EXISTS GetUserHash;
@@ -34,6 +36,22 @@ CREATE TABLE dbo.[hashs] (
 	user_account_id BIGINT NULL,
 	user_hash VARCHAR(128) PRIMARY KEY,
 	CONSTRAINT hash_fk FOREIGN KEY(user_account_id) REFERENCES users(user_account_id)
+);
+
+CREATE TABLE dbo.[profiles] (
+	profile_id BIGINT IDENTITY(1,1) NOT NULL,
+	user_hash VARCHAR(128) PRIMARY KEY,
+	pronoun VARCHAR(50),
+	position VARCHAR(128),
+	company VARCHAR(128),
+	degree VARCHAR(128),
+	school VARCHAR(128),
+	field VARCHAR(128),
+	graduation_date DATETIME,
+	location_city VARCHAR(256),
+	location_country VARCHAR(128),
+	about VARCHAR(1024)
+	CONSTRAINT profile_fk FOREIGN KEY (user_hash) References hashs(user_hash)
 );
 
 CREATE TABLE dbo.[applications] (
@@ -249,4 +267,35 @@ AS
 BEGIN
 	INSERT INTO applications (user_hash, submission_datetime, company, position, application_type, application_status, link, company_state, company_city, company_country, application_description, is_remote, deleted)
 		VALUES(@UserHash, @SubmissionDateTime, @Company, @Position, @Type, @Status, @Link, @State, @City, @Country, @Description, @IsRemote, @Deleted);
+END
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[UpdateProfile]
+(
+	@UserHash VARCHAR(128),
+	@Pronoun VARCHAR(50),
+	@Position VARCHAR(128),
+	@Company VARCHAR(128),
+	@Degree VARCHAR(128),
+	@School VARCHAR(128),
+	@Field VARCHAR(128),
+	@GraduationDate DATETIME,
+	@LocationCity VARCHAR(256),
+	@LocationCountry VARCHAR(128),
+	@About VARCHAR(1024)
+)
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM profiles with (updlock, serializable) where user_hash = @UserHash)
+		BEGIN
+			UPDATE profiles SET pronoun = @Pronoun, position = @Position, company = @Company, degree = @Degree, school = @School, field = @Field, graduation_date = @GraduationDate, location_city = @LocationCity, location_country = @LocationCountry, about = @About WHERE user_hash = @UserHash;
+		END
+	ELSE
+		BEGIN
+			INSERT INTO profiles(user_hash,pronoun, position, company, degree, school, field, graduation_date, location_city, location_country,about)
+				VALUES(@UserHash, @Pronoun, @Position, @Company, @Degree, @School, @Field, @GraduationDate, @LocationCity, @LocationCountry, @About);
+		END
 END

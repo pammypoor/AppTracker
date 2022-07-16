@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AppTracker.Services.Contracts;
 
 namespace AppTracker.Services.Implementations
 {
-    internal class ProfileService
+    public class ProfileService: IProfileService
     {
     }
 }

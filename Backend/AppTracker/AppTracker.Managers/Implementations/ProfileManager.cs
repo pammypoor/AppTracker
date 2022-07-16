@@ -1,6 +1,8 @@
-﻿namespace AppTracker.Managers.Implementations
+﻿using AppTracker.Managers.Contracts;
+
+namespace AppTracker.Managers.Implementations
 {
-    internal class ProfileManager
+    internal class ProfileManager: IProfileManager
     {
     }
 }

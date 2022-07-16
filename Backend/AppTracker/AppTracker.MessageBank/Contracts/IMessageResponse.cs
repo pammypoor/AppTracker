@@ -1,4 +1,4 @@
-﻿using static AppTracker.MessageBank.Contracts.IMessageBank;
+﻿
 
 namespace AppTracker.MessageBank.Contracts
 {

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AppTracker.Models.Contracts;
 
 namespace AppTracker.DataAccessLayer.Contracts
 {
-    internal interface IProfileDAO
+    public interface IProfileDAO
     {
+        public Task<IResponse<IProfile>> UpdateProfileAsync(IProfile profile, string userHash, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

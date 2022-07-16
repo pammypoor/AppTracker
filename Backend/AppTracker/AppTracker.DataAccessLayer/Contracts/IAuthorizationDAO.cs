@@ -3,7 +3,7 @@ using AppTracker.Models.Contracts.Input;
 
 namespace AppTracker.DataAccessLayer.Contracts
 {
-    public interface IUserAccountDAO
+    public interface IAuthorizationDAO
     {
         public Task<IResponse<string>> CreateUserAccountAsync(IUserAccount account, string userHash, CancellationToken cancellationToken = default(CancellationToken));
 

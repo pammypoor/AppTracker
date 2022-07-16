@@ -11,11 +11,11 @@ using System.Data.SqlClient;
 
 namespace AppTracker.DataAccessLayer.Implementations
 {
-    public class UserAccountDAO : IUserAccountDAO
+    public class AuthorizationDAO : IAuthorizationDAO
     {
         private BuildSettingsOptions _options { get; }
         private IMessageBank _messageBank {get;}
-        public UserAccountDAO(IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
+        public AuthorizationDAO(IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
         {
             _options = options.Value;
             _messageBank = messageBank;

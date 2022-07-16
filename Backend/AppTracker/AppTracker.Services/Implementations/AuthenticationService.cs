@@ -16,11 +16,11 @@ namespace AppTracker.Services.Implementations
 {
     public class AuthenticationService: IAuthenticationService
     {
-        private IUserAccountDAO _userAccountDAO { get; }
+        private IAuthorizationDAO _userAccountDAO { get; }
         private BuildSettingsOptions _options { get; }
         private IMessageBank _messageBank { get; }
 
-        public AuthenticationService(IUserAccountDAO userAccountDAO, IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
+        public AuthenticationService(IAuthorizationDAO userAccountDAO, IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
         {
             _userAccountDAO = userAccountDAO;
             _options = options.Value;

@@ -23,9 +23,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Managers", "AppT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Middleware", "AppTracker.Middleware\AppTracker.Middleware.csproj", "{5D4822C7-7A55-403A-A810-A85ECDC77632}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.MessageBank", "AppTracker.MessageBank\AppTracker.MessageBank.csproj", "{A929F7A3-FAA0-4AF4-B5DF-4B1527077EC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.MessageBank", "AppTracker.MessageBank\AppTracker.MessageBank.csproj", "{A929F7A3-FAA0-4AF4-B5DF-4B1527077EC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTracker.Exceptions", "AppTracker.Exceptions\AppTracker.Exceptions.csproj", "{7E17A474-ADA4-412F-8ECE-93AD862F207F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTracker.Exceptions", "AppTracker.Exceptions\AppTracker.Exceptions.csproj", "{7E17A474-ADA4-412F-8ECE-93AD862F207F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F24670AA-FA4D-4632-8354-D7F00A496D89}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
