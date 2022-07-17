@@ -16,11 +16,11 @@ namespace AppTracker.Services.Implementations
 {
     public class AuthenticationService: IAuthenticationService
     {
-        private IAuthorizationDAO _userAccountDAO { get; }
+        private IAuthenticationDAO _userAccountDAO { get; }
         private BuildSettingsOptions _options { get; }
         private IMessageBank _messageBank { get; }
 
-        public AuthenticationService(IAuthorizationDAO userAccountDAO, IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
+        public AuthenticationService(IAuthenticationDAO userAccountDAO, IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank)
         {
             _userAccountDAO = userAccountDAO;
             _options = options.Value;
@@ -93,13 +93,13 @@ namespace AppTracker.Services.Implementations
                         break;
                 }
 
-                if(messageResponse.Code == 200)
+                if(result.StatusCode == 200)
                 {
-                    return new Response<string>(messageResponse.Message, messageResponse.Message, messageResponse.Code, true);
+                    return new Response<string>(messageResponse.Message, messageResponse.Message, result.StatusCode, true);
                 } 
                 else
                 {
-                    return new Response<string>(messageResponse.Message, messageResponse.Message, messageResponse.Code, false);
+                    return new Response<string>(messageResponse.Message, messageResponse.Message, result.StatusCode, false);
                 }
             }
             catch (Exception ex)

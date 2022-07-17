@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AppTracker.Tests.IntegrationTests.DataAccessLayer
 {
-    public class AuthorizationDAOShould
+    public class AuthenticationDAOShould
     {
     }
 }

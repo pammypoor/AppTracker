@@ -13,7 +13,7 @@ namespace AppTracker.Services.Implementations
         private BuildSettingsOptions _options { get; }
         private IMessageBank _messageBank { get; }
         private IApplicationDAO _applicationDAO { get; }
-        private IAuthorizationDAO _userAccountDAO { get; }
+        private IAuthenticationDAO _userAccountDAO { get; }
         public AuthorizationService(IOptionsSnapshot<BuildSettingsOptions> options, IMessageBank messageBank, IApplicationDAO applicationDAO)
         {
             _options = options.Value;

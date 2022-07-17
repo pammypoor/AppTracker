@@ -9,9 +9,9 @@ namespace AppTracker.Services.Implementations
 {
     public class RegistrationService: IRegistrationService
     {
-        private IAuthorizationDAO _DAO { get; set; }
+        private IAuthenticationDAO _DAO { get; set; }
 
-        public RegistrationService(IAuthorizationDAO DAO)
+        public RegistrationService(IAuthenticationDAO DAO)
         {
             _DAO = DAO;
         }

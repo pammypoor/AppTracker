@@ -20,7 +20,7 @@ builder.Services.Configure<BuildSettingsOptions>(
 builder.Services.AddScoped<IMessageBank, MessageBank>();
 
 //DAL
-builder.Services.AddScoped<IUserAccountDAO, UserAccountDAO>();
+builder.Services.AddScoped<IAuthenticationDAO, AuthenticationDAO>();
 builder.Services.AddScoped<IApplicationDAO, ApplicationDAO>();
 
 //Services

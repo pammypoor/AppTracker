@@ -1,4 +1,6 @@
-﻿using AppTracker.MessageBank.Contracts;
+﻿using AppTracker.Managers.Contracts;
+using AppTracker.Managers.Implementations;
+using AppTracker.MessageBank.Contracts;
 using AppTracker.Models;
 using AppTracker.Models.Contracts;
 using AppTracker.WebAPI.Controllers.Contracts;
@@ -9,7 +11,7 @@ namespace AppTracker.WebAPI.Controllers.Implementations
 {
     public class ProfileController: ControllerBase, IProfileController
     {
-        private  ProfileManager _profileManager { get; }
+        private  IProfileManager _profileManager { get; }
         private BuildSettingsOptions _options { get; }
         private IMessageBank _messageBank { get; }
 
@@ -18,21 +20,6 @@ namespace AppTracker.WebAPI.Controllers.Implementations
             _profileManager = profileManager;
             _options = options.Value;
             _messageBank = messageBank;
-        }
-        [HttpPost("createApplication")]
-        public async Task<IActionResult> Update()
-        {
-            try
-            {
-                IResponse<string> result = await _trackerManager.CreateApplicationAsync(application).ConfigureAwait(false);
-
-                return StatusCode(result.StatusCode, result.Data);
-            }
-            catch (Exception ex)
-            {
-                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
-                return StatusCode(messageResponse.Code, messageResponse.Message);
-            }
         }
     }
 }

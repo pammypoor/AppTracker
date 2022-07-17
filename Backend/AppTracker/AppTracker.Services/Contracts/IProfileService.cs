@@ -1,7 +1,9 @@
-﻿
+﻿using AppTracker.Models.Contracts;
+
 namespace AppTracker.Services.Contracts
 {
-    internal interface IProfileService
+    public interface IProfileService
     {
+        public Task<IResponse<IProfile>> UpdateProfileAsync(IProfile profile, string userHash, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

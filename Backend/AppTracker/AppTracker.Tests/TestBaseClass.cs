@@ -24,7 +24,7 @@ namespace AppTracker.Tests
             TestServices = new ServiceCollection();
             TestServices.Configure<BuildSettingsOptions>(config.GetSection(nameof(BuildSettingsOptions)));
             TestServices.AddScoped<IMessageBank, AppTracker.MessageBank.Implementations.MessageBank>();
-            TestServices.AddScoped<IAuthorizationDAO, AuthorizationDAO>();
+            TestServices.AddScoped<IAuthenticationDAO, AuthenticationDAO>();
             TestServices.AddScoped<IAuthorizationService, AuthorizationService>();
         }
     }
