@@ -63,7 +63,7 @@ namespace AppTracker.Managers.Implementations
                 }
 
                 IResponse<IProfile> updateProfileResult = await _profileService.UpdateProfileAsync(profile, userHash, cancellationToken);
-                return updateProfileResult;
+                return updateProfileResult; 
             }
             catch (OperationCanceledException)
             {

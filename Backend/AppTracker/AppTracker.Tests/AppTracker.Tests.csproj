@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AppTracker.DataAccessLayer\AppTracker.DataAccessLayer.csproj" />
     <ProjectReference Include="..\AppTracker.Models\AppTracker.Models.csproj" />
   </ItemGroup>
 
