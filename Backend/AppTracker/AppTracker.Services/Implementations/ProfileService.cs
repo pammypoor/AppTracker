@@ -51,5 +51,27 @@ namespace AppTracker.Services.Implementations
                 return new Response<IProfile>(messageResponse.Message + ex.Message, profile, messageResponse.Code, false);
             }
         }
+
+
+        public async Task<IResponse<IProfile>> GetProfileAsync(string userHash, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                IResponse<IProfile> getProfileResult = await _profileDAO.GetProfileAsync(userHash, cancellationToken);
+                return getProfileResult;
+            }
+            catch (OperationCanceledException)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message, null, messageResponse.Code, false);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
+            }
+        }
+
     }
 }

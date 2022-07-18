@@ -21,6 +21,35 @@ namespace AppTracker.DataAccessLayer.Implementations
             _messageBank = messageBank;
         } 
 
+        public async Task<IResponse<IProfile>> GetProfileAsync(string userHash, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                using (var connection = new SqlConnection(_options.SqlConnectionString))
+                {
+                    connection.Open();
+                    var procedure = "[GetUserProfile]";
+                    var parameters = new
+                    {
+                        @Userhash = userHash
+                    };
+                    
+                    IProfile result = await connection.QueryFirstAsync<Profile>(new CommandDefinition(procedure, parameters, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken));
+                    return new Response<IProfile>("success", result, 200, true);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message, null, messageResponse.Code, false);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
+            }
+        }
         public async Task<IResponse<IProfile>> UpdateProfileAsync(IProfile profile, string userHash, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -62,13 +91,15 @@ namespace AppTracker.DataAccessLayer.Implementations
                 }
 
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException)
             {
-                return new Response<IProfile>("cancellation requested", profile, 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message, profile, messageResponse.Code, false);
             }
             catch (Exception ex)
             {
-                return new Response<IProfile>("unhandled exception" + ex.Message, profile, 500, false);
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message + ex.Message, profile, messageResponse.Code, false);
             }
         }
     }

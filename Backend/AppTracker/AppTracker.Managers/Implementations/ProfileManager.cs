@@ -23,6 +23,61 @@ namespace AppTracker.Managers.Implementations
             _options = options.Value;
         }
 
+        public async Task<IResponse<IProfile>> GetProfileAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                if (Thread.CurrentPrincipal.Identity.Name.Equals("guest"))
+                {
+                    IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.notAuthenticated, cancellationToken);
+                    return new Response<IProfile>(messageResponse.Message, null, messageResponse.Code, false);
+                }
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                string role = "";
+                if (Thread.CurrentPrincipal.IsInRole(_options.User))
+                {
+                    role = _options.User;
+                }
+                else if (Thread.CurrentPrincipal.IsInRole(_options.Admin))
+                {
+                    role = _options.Admin;
+                }
+                else
+                {
+                    IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unknownRole, cancellationToken);
+                    return new Response<IProfile>(messageResponse.Message, null, messageResponse.Code, false);
+                }
+
+                string userHash = (Thread.CurrentPrincipal.Identity as IRoleIdentity).UserHash;
+
+                IUserAccount account = new UserAccount(Thread.CurrentPrincipal.Identity.Name, role);
+
+                // Check if user is authorized to make update to profile
+                IResponse<string> verifyAccountResult = await _authenticationService.VerifyAccountAsync(account, cancellationToken);
+                if (verifyAccountResult.StatusCode != 200 && !verifyAccountResult.Data.Equals(_messageBank.GetMessageAsync(IMessageBank.Responses.accountVerificationSuccess).Result.Message))
+                {
+                    IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.notAuthorized, cancellationToken);
+                    return new Response<IProfile>(messageResponse.Message, null, messageResponse.Code, false);
+                }
+
+                IResponse<IProfile> getProfileResult = await _profileService.GetProfileAsync(userHash, cancellationToken);
+                return getProfileResult;
+
+            }
+            catch (OperationCanceledException)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message, null, messageResponse.Code, false);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<IProfile>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
+            }
+        }
+
         public async Task<IResponse<IProfile>> UpdateProfileAsync(IProfile profile, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
