@@ -10,6 +10,7 @@ DROP PROCEDURE IF EXISTS Authenticate;
 DROP PROCEDURE IF EXISTS VerifyAccount;
 DROP PROCEDURE IF EXISTS GetMessage;
 DROP PROCEDURE IF EXISTS CreateApplication;
+DROP PROCEDURE IF EXISTS UpdateProfile;
 
 CREATE TABLE dbo.[responses](
 	response_id BIGINT IDENTITY(1,1) NOT NULL,
@@ -113,6 +114,7 @@ BEGIN
 	INSERT INTO users (email, passphrase, authorization_level, enabled_status, confirmed) VALUES (@email, @passphrase, @authorization_level, @enabled, @confirmed);
 	SET @account_id = @@IDENTITY;
 	INSERT INTO hashs (user_account_id, user_hash) VALUES (@account_id, @user_hash);
+	INSERT INTO profiles (user_hash) VALUES (@user_hash);
 END
 
 SET ANSI_NULLS ON

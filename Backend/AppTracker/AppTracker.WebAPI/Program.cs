@@ -22,17 +22,20 @@ builder.Services.AddScoped<IMessageBank, MessageBank>();
 //DAL
 builder.Services.AddScoped<IAuthenticationDAO, AuthenticationDAO>();
 builder.Services.AddScoped<IApplicationDAO, ApplicationDAO>();
+builder.Services.AddScoped<IProfileDAO, ProfileDAO>();
 
 //Services
 builder.Services.AddScoped<ITrackerService, TrackerService>();
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAuthorizationService, AuthorizationService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 //Managers
 builder.Services.AddScoped<IRegistrationManager, RegistrationManager>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 builder.Services.AddScoped<ITrackerManager, TrackerManager>();
+builder.Services.AddScoped<IProfileManager, ProfileManager>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

@@ -1,10 +1,10 @@
 ﻿using AppTracker.Models.Contracts;
+using System.Text.Json.Serialization;
 
 namespace AppTracker.Models.Implementations
 {
     public class Profile: IProfile, IEquatable<Profile>
     {   
-        public string ProfileID { get; set; }
         public string Pronouns { get; set; }
         public string Position { get; set; }
         public string Company { get; set; }
@@ -20,13 +20,14 @@ namespace AppTracker.Models.Implementations
         {
             if (obj != null)
             {
-                return ProfileID.Equals(obj.ProfileID);
+                return Position.Equals(obj.Position) && Company.Equals(obj.Company) && GraduationDate.Equals(obj.GraduationDate) && LocationCity.Equals(obj.LocationCity) && About.Equals(obj.About) ;
             }
             return false;
         }
-        public Profile(string profileID, string pronouns, string position, string company, string degree, string school, string field, DateTime graduationDate, string locationCity, string locationCountry, string about)
+
+        [JsonConstructor]
+        public Profile(string pronouns, string position, string company, string degree, string school, string field, DateTime graduationDate, string locationCity, string locationCountry, string about)
         {
-            ProfileID=profileID;
             Pronouns=pronouns;
             Position=position;
             Company=company;

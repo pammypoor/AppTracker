@@ -16,6 +16,8 @@ function NavigationBar() {
     const [profileData, setProfileData] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [theme, themeToggler] = UseDarkMode();
+    const [isNotPortal, setIsNotPortal] = useState(false);
+    const [isNotSettings, setIsNotSettings] = useState(false);
 
     const themeMode = theme === 'light' ? lightTheme : darkTheme;
 
@@ -30,6 +32,10 @@ function NavigationBar() {
             }
             setProfileData(decoded.email[0]);
             setIsAuthenticated(true);
+            if(window.location.pathname !== "/Portal")
+                setIsNotPortal(true);
+            if(window.location.pathname !== "/Settings")
+                setIsNotSettings(true);
         }      
     }
 
@@ -104,6 +110,16 @@ function NavigationBar() {
         window.location = "/";
     }
 
+    const handleSettings = (e) => {
+        e.preventDefault();
+        window.location = "/Settings";
+    }
+
+    const handlePortal = (e) => {
+        e.preventDefault();
+        window.location = "/Portal";
+    }
+
     const renderAuthenticatedNav = (
         <nav className = "authenticated-navbar-container">
             <Link to="/" className="nav-logo" onClick = {toggleMenu}>
@@ -121,7 +137,8 @@ function NavigationBar() {
                             </div>
                         </ContextMenuTrigger>
                         <ContextMenu id = "contextmenu" className="nav-context-menu">
-                            <MenuItem>Settings</MenuItem>
+                            {isNotPortal ? <MenuItem onClick={handlePortal}>Portal</MenuItem>: null}
+                            {isNotSettings ? <MenuItem onClick={handleSettings}>Settings</MenuItem>: null}
                             <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
                         </ContextMenu>
                     </div>

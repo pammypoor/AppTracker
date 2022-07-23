@@ -6,6 +6,7 @@ import Home from "./Pages/Home/Home";
 import SignInUpForm from "./Components/Forms/SignInUp/SignInUpForm";
 import Portal from "./Pages/Portal/Portal";
 import NewApplication from "./Pages/NewApplication/NewApplication";
+import Settings from "./Pages/Settings/Settings";
 
 class App extends React.Component {
   constructor(props){
@@ -23,6 +24,7 @@ class App extends React.Component {
             <Route path = "/SignIn" element = {<SignInUpForm />}/>
             <Route path = "/Portal" element = {<Portal/>}/>
             <Route path = "/NewApplication" element = {<NewApplication/>}/>
+            <Route path = "/Settings" element = {<Settings/>}/>
           </Routes>
         </Router>
       </div>
