@@ -1,8 +1,9 @@
-import React from "react"; 
+import React from "react";
+import ProfileForm from "../Forms/ProfileForm/ProfileForm"; 
 
-import "./Profile.css";
+import "./UserEditableProfile.css";
 
-class Profile extends React.PureComponent {
+class UserEditableProfile extends React.PureComponent {
     constructor(props){
         super(props); 
     }
@@ -17,9 +18,10 @@ class Profile extends React.PureComponent {
         return(
             <div className ="profile-container">
                 <h2>Public profile</h2>
+                <ProfileForm/>
             </div>
         );
     }
 }
 
-export default Profile;
+export default UserEditableProfile;

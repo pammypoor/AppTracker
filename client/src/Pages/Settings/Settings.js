@@ -3,7 +3,7 @@ import jwt_decode from "jwt-decode";
 
 import "./Settings.css";
 import NavigationBar from "../../Components/NavigationBar/NavigationBar";
-import Profile from "../../Components/Profile/Profile.js";
+import UserEditableProfile from "../../Components/Profile/UserEditableProfile";
 
 class Settings extends React.PureComponent {
     constructor(props){
@@ -42,7 +42,7 @@ class Settings extends React.PureComponent {
                     <NavigationBar/>
                 </div>
                 <div className="profile-wrapper">
-                    <Profile/>
+                    <UserEditableProfile/>
                 </div>
             </div>
         );

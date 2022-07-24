@@ -72,6 +72,12 @@ CREATE TABLE dbo.[applications] (
 	CONSTRAINT applications_fk FOREIGN KEY (user_hash) REFERENCES hashs(user_hash)
 );
 
+CREATE TABLE dbo.[pronouns] (
+	pronoun VARCHAR(50) PRIMARY KEY
+);
+
+INSERT INTO pronouns (pronoun) VALUES ('she/her'), ('he/him'), ('they/them');
+
 INSERT INTO responses (response, response_message, code) VALUES
 	('success', 'Success', 200),
 	('unhandledException', 'Unhandeled Exception', 500),
