@@ -73,5 +73,29 @@ namespace AppTracker.Services.Implementations
             }
         }
 
+        /// <summary>
+        /// Retrieves a list of pronouns retrieved from database
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IResponse<List<string>>> GetPronounsAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                IResponse<List<string>> getPronounsResult = await _profileDAO.GetPronounsAsync(cancellationToken);
+                return getPronounsResult;
+            }
+            catch (OperationCanceledException)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled, cancellationToken);
+                return new Response<List<string>>(messageResponse.Message, null, messageResponse.Code, false);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<List<string>>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
+            }
+        }
     }
 }

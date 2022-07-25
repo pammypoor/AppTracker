@@ -54,7 +54,7 @@ namespace AppTracker.Managers.Implementations
 
                 IUserAccount account = new UserAccount(Thread.CurrentPrincipal.Identity.Name, role);
 
-                // Check if user is authorized to make update to profile
+                // Check if user is authorized to view profile
                 IResponse<string> verifyAccountResult = await _authenticationService.VerifyAccountAsync(account, cancellationToken);
                 if (verifyAccountResult.StatusCode != 200 && !verifyAccountResult.Data.Equals(_messageBank.GetMessageAsync(IMessageBank.Responses.accountVerificationSuccess).Result.Message))
                 {
@@ -75,6 +75,26 @@ namespace AppTracker.Managers.Implementations
             {
                 IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
                 return new Response<IProfile>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
+            }
+        }
+
+        public async Task<IResponse<List<string>>> GetPronounsAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                IResponse<List<string>> getPronounsResult = await _profileService.GetPronounsAsync(cancellationToken);
+                return getPronounsResult;
+            }
+            catch (OperationCanceledException)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled, cancellationToken);
+                return new Response<List<string>>(messageResponse.Message, null, messageResponse.Code, false);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<List<string>>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
             }
         }
 

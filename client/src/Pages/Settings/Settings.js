@@ -1,14 +1,21 @@
 import React from "react";
 import jwt_decode from "jwt-decode";  
+import { Navigation } from "react-minimal-side-navigation";
+import { FaIdCard } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import "./Settings.css";
 import NavigationBar from "../../Components/NavigationBar/NavigationBar";
 import UserEditableProfile from "../../Components/Profile/UserEditableProfile";
+import ProfileForm from "../../Components/Forms/ProfileForm/ProfileForm";
 
 class Settings extends React.PureComponent {
     constructor(props){
         super(props); 
         this.token = sessionStorage.getItem('authorization');
+        this.state = {
+            
+        }
     }
 
     componentDidMount() {
@@ -34,16 +41,12 @@ class Settings extends React.PureComponent {
     }
 
     render() {
-        
-
         return(
             <div className ="settings-wrapper">
                 <div className="settings-navbar-wrapper">
                     <NavigationBar/>
                 </div>
-                <div className="profile-wrapper">
-                    <UserEditableProfile/>
-                </div>
+                <ProfileForm/>
             </div>
         );
     }

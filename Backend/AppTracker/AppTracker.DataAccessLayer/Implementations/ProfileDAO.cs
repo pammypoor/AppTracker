@@ -50,6 +50,32 @@ namespace AppTracker.DataAccessLayer.Implementations
                 return new Response<IProfile>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
             }
         }
+
+        public async Task<IResponse<List<string>>> GetPronounsAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                using (var connection = new SqlConnection(_options.SqlConnectionString))
+                {
+                    connection.Open();
+                    var procedure = "[GetPronouns]";
+                    var parameters = new { };
+                    List<string> results = new List<string>(await connection.QueryAsync<string>(new CommandDefinition(procedure, parameters, commandType: CommandType.StoredProcedure, cancellationToken: cancellationToken))).ToList();
+                    return new Response<List<string>>("success", results, 200, true);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.operationCancelled, cancellationToken);
+                return new Response<List<string>>(messageResponse.Message, null, messageResponse.Code, false);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException, cancellationToken);
+                return new Response<List<string>>(messageResponse.Message + ex.Message, null, messageResponse.Code, false);
+            }
+        }
         public async Task<IResponse<IProfile>> UpdateProfileAsync(IProfile profile, string userHash, CancellationToken cancellationToken = default(CancellationToken))
         {
             try

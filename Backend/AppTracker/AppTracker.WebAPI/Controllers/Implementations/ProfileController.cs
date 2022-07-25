@@ -1,5 +1,4 @@
 ﻿using AppTracker.Managers.Contracts;
-using AppTracker.Managers.Implementations;
 using AppTracker.MessageBank.Contracts;
 using AppTracker.Models;
 using AppTracker.Models.Contracts;
@@ -8,7 +7,6 @@ using AppTracker.WebAPI.Controllers.Contracts;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using System.Text.Json.Serialization;
 
 namespace AppTracker.WebAPI.Controllers.Implementations
 {
@@ -40,11 +38,11 @@ namespace AppTracker.WebAPI.Controllers.Implementations
             catch (Exception ex)
             {
                 IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
-                return StatusCode(messageResponse.Code, messageResponse.Message);
+                return StatusCode(messageResponse.Code, messageResponse.Message + ex.Message);
             }
         }
 
-        [HttpGet("getProfile")]
+        [HttpPost("updateProfile")]
         public async Task<IActionResult> GetProfileAsync()
         {
             try
@@ -55,7 +53,22 @@ namespace AppTracker.WebAPI.Controllers.Implementations
             catch (Exception ex)
             {
                 IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
-                return StatusCode(messageResponse.Code, messageResponse.Message);
+                return StatusCode(messageResponse.Code, messageResponse.Message + ex.Message);
+            }
+        }
+
+        [HttpGet("getPronouns")]
+        public async Task<IActionResult> GetPronounsAsync()
+        {
+            try
+            {
+                IResponse<List<string>> result = await _profileManager.GetPronounsAsync();
+                return StatusCode(result.StatusCode, result.Data);
+            }
+            catch (Exception ex)
+            {
+                IMessageResponse messageResponse = await _messageBank.GetMessageAsync(IMessageBank.Responses.unhandledException);
+                return StatusCode(messageResponse.Code, messageResponse.Message + ex.Message);
             }
         }
     }

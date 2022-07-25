@@ -10,7 +10,9 @@ class ProfileForm extends React.Component {
             email: '',
             username: '',
             first: '',
-            last: ''
+            last: '',
+            position: '',
+            company: '',
         }
     }
 
@@ -30,12 +32,8 @@ class ProfileForm extends React.Component {
         const renderProfileForm = (
             <form className="profile-form">
                 <div className="profile-2col-field">
-                    <input className="profile-input" id="profile-email" type="text" value = {this.state.email} required placeholder="Email" onChange = {(e) => this.setState({email: e.target.value})}/>
-                    <input className="profile-input" id="profile-username" type="text" value = {this.state.username} required placeholder="Username" onChange = {(e) => this.setState({username: e.target.value})}/>
-                </div>
-                <div className="profile-2col-field">
-                    <input className="profile-input" id="profile-name" type="text" value = {this.state.name} required placeholder="First Name" onChange = {(e) => this.setState({first: e.target.value})}/>
-                    <input className="profile-input" id="profile-last" type="text" value = {this.state.last} required placeholder="Last Name" onChange = {(e) => this.setState({last: e.target.value})}/>
+                    <input className="profile-input" id="profile-position" type="text" value = {this.state.position} required placeholder="Position" onChange = {(e) => this.setState({position: e.target.value})}/>
+                    <input className="profile-input" id="profile-company" type="text" value = {this.state.company} required placeholder="Company" onChange = {(e) => this.setState({company: e.target.value})}/>
                 </div>
                 <div className="profile-button-field">
                     <button className="profile-button" onClick={this.onSubmitHandler}>Update profile</button>
